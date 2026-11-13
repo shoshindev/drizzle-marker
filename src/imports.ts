@@ -3,9 +3,10 @@
 //
 // It follows the ways a project names its own files: relative paths, `#lib/...`
 // from the `imports` in package.json, `paths` in tsconfig.json or jsconfig.json,
-// and SvelteKit's `$lib`. Packages, like `postgres`, aren't followed.
+// SvelteKit's `$lib`, and the packages of your own monorepo, like `@repo/db`.
+// Packages you install, like `postgres`, aren't followed.
 
-import { readFileSync, statSync } from 'node:fs';
+import { readFileSync, realpathSync, statSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import type { ImportedFile } from './findMarks.ts';
 
@@ -100,16 +101,27 @@ function matchPattern(pattern: string, path: string): string | undefined {
   return path.slice(before.length, path.length - after.length);
 }
 
-// A target in package.json, which may be a set of conditions, like
-// `{ "types": "./a.d.ts", "default": "./a.js" }`.
-function conditionTarget(target: any): string | undefined {
-  if (typeof target === 'string') return target;
-  if (Array.isArray(target)) return target.map(conditionTarget).find(Boolean);
+// The files a target in package.json can stand for, most likely first. A target
+// may be a set of conditions, like `{ "types": "./a.ts", "default": "./a.js" }`,
+// and the types often point at the source in a monorepo's own packages.
+function conditionTargets(target: any): string[] {
+  if (typeof target === 'string') return [target];
+  if (Array.isArray(target)) return target.flatMap(conditionTargets);
   if (target && typeof target === 'object') {
-    for (const condition of ['import', 'node', 'default', 'require']) {
-      const found = conditionTarget(target[condition]);
-      if (found) return found;
-    }
+    return ['types', 'import', 'node', 'default', 'require'].flatMap((condition) => conditionTargets(target[condition]));
+  }
+  return [];
+}
+
+// The files a path stands for in a map like the `imports` or `exports` of a
+// package.json, relative to its folder. The longest pattern that matches wins,
+// as Node picks it.
+function mapped(map: Record<string, any>, path: string, folder: string): string[] | undefined {
+  const patterns = Object.keys(map).sort((a, b) => b.length - a.length);
+  for (const pattern of patterns) {
+    const rest = matchPattern(pattern, path);
+    if (rest === undefined) continue;
+    return conditionTargets(map[pattern]).map((target) => resolve(folder, target.replaceAll('*', rest)));
   }
   return undefined;
 }
@@ -119,15 +131,7 @@ function fromPackageImports(path: string, fromFile: string): string[] {
   const packageFile = nearest(dirname(fromFile), 'package.json');
   const imports = packageFile ? readJson(packageFile)?.imports : undefined;
   if (!packageFile || !imports || typeof imports !== 'object') return [];
-  // The longest pattern that matches wins, as Node picks it.
-  const patterns = Object.keys(imports).sort((a, b) => b.length - a.length);
-  for (const pattern of patterns) {
-    const rest = matchPattern(pattern, path);
-    if (rest === undefined) continue;
-    const target = conditionTarget(imports[pattern]);
-    if (target) return [resolve(dirname(packageFile), target.replace('*', rest))];
-  }
-  return [];
+  return mapped(imports, path, dirname(packageFile)) ?? [];
 }
 
 interface PathOptions {
@@ -178,6 +182,49 @@ function fromSvelteKitLib(path: string, fromFile: string): string[] {
   return packageFile ? [join(dirname(packageFile), 'src/lib', rest)] : [];
 }
 
+// The folder of a package of your own monorepo, like packages/db for `@repo/db`.
+// Node finds a package in a node_modules folder next to the file or above it,
+// and a package manager links your own packages there. A package whose real
+// folder is inside node_modules is one you installed, so it isn't followed.
+function workspacePackage(name: string, fromFolder: string): string | undefined {
+  for (let current = fromFolder; ; current = dirname(current)) {
+    const folder = join(current, 'node_modules', name);
+    if (stampOf(join(folder, 'package.json'))) {
+      try {
+        const real = realpathSync(folder);
+        return /[\\/]node_modules[\\/]/.test(real) ? undefined : real;
+      } catch {
+        return undefined;
+      }
+    }
+    if (dirname(current) === current) return undefined;
+  }
+}
+
+// `@repo/db` and `@repo/db/schema`, through the `exports` of the package's
+// package.json, or its `types`, `module` or `main`.
+function fromWorkspacePackage(path: string, fromFile: string): string[] {
+  const parts = path.split('/');
+  const nameLength = path.startsWith('@') ? 2 : 1;
+  if (parts.length < nameLength || parts.slice(0, nameLength).some((part) => !part)) return [];
+  const folder = workspacePackage(parts.slice(0, nameLength).join('/'), dirname(fromFile));
+  if (!folder) return [];
+  const subpath = parts.slice(nameLength).join('/');
+  const manifest = readJson(join(folder, 'package.json')) ?? {};
+  const { exports } = manifest;
+  if (exports !== undefined && exports !== null) {
+    // `"exports": "./src/index.ts"` and a set of conditions stand for the package itself.
+    const map =
+      typeof exports === 'object' && !Array.isArray(exports) && Object.keys(exports).some((key) => key.startsWith('.'))
+        ? exports
+        : { '.': exports };
+    return mapped(map, subpath ? `./${subpath}` : '.', folder) ?? [];
+  }
+  if (subpath) return [join(folder, subpath)];
+  const entries = [manifest.types, manifest.module, manifest.main].filter((entry) => typeof entry === 'string');
+  return [...entries, 'index'].map((entry) => resolve(folder, entry));
+}
+
 // The places an import path can point at, before trying file extensions.
 function candidates(path: string, fromFile: string): string[] {
   if (path.startsWith('./') || path.startsWith('../') || path === '.' || path === '..') {
@@ -185,7 +232,11 @@ function candidates(path: string, fromFile: string): string[] {
   }
   if (path.startsWith('/')) return [path];
   if (path.startsWith('#')) return fromPackageImports(path, fromFile);
-  return [...fromConfigPaths(path, fromFile), ...fromSvelteKitLib(path, fromFile)];
+  return [
+    ...fromConfigPaths(path, fromFile),
+    ...fromSvelteKitLib(path, fromFile),
+    ...fromWorkspacePackage(path, fromFile),
+  ];
 }
 
 // The code file a place stands for: itself, its .ts twin, or the file with an
@@ -224,12 +275,34 @@ export function importReader(openFiles: OpenFiles = () => undefined) {
   };
 }
 
+const DRIZZLE_PACKAGE = /^drizzle-(orm|kit|zod|valibot|typebox|arktype|seed)$/;
+
 // Does the project a file belongs to use Drizzle? Then a file there that never
-// names Drizzle can still use it, through an import from a file of yours.
+// names Drizzle can still use it, through an import from a file of yours. A
+// project uses it when its package.json lists one of Drizzle's packages, or a
+// package of your own monorepo that does, like an app that lists `@repo/db`.
 export function usesDrizzle(fromFile: string): boolean {
   const packageFile = nearest(dirname(fromFile), 'package.json');
-  const manifest = packageFile ? readJson(packageFile) : undefined;
+  return packageFile ? packageUsesDrizzle(packageFile, new Set()) : false;
+}
+
+function packageUsesDrizzle(packageFile: string, seen: Set<string>): boolean {
+  if (seen.has(packageFile)) return false;
+  seen.add(packageFile);
+  const manifest = readJson(packageFile);
   if (!manifest) return false;
   const names = Object.keys({ ...manifest.dependencies, ...manifest.devDependencies, ...manifest.peerDependencies });
-  return names.some((name) => /^drizzle-(orm|kit|zod|valibot|typebox|arktype|seed)$/.test(name));
+  if (names.some((name) => DRIZZLE_PACKAGE.test(name))) return true;
+  return names.some((name) => {
+    const folder = workspacePackage(name, dirname(packageFile));
+    return folder !== undefined && packageUsesDrizzle(join(folder, 'package.json'), seen);
+  });
+}
+
+// The name of the package a file belongs to, like `@repo/db`, from the nearest
+// package.json.
+export function packageNameOf(fileName: string): string | undefined {
+  const packageFile = nearest(dirname(fileName), 'package.json');
+  const name = packageFile ? readJson(packageFile)?.name : undefined;
+  return typeof name === 'string' ? name : undefined;
 }

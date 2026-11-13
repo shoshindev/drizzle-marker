@@ -35,13 +35,14 @@ Marks also appear in Restricted Mode, which VS Code uses for folders you haven't
 | Fixed strings | the text of a string Drizzle fixes, but not its quotes: `cascade` in `onDelete: 'cascade'`, `date` in `mode: 'date'`, `postgresql` in `dialect: 'postgresql'`, `read committed` in `isolationLevel: 'read committed'` |
 | Provided names | what Drizzle passes to your callbacks: `one` and `many` in `relations(users, ({ one, many }) => ...)`, `sql` in an `extras` callback like `(table, { sql }) => ...`, and `many` in `r.many.posts()` with `defineRelations` |
 
-Most of these are members of what Drizzle gives you, so the marker follows each value from where it's made: `db` from `drizzle()`, a table from `pgTable()`, and so on. It follows values across your files too, as long as your project's `package.json` lists one of Drizzle's packages:
+Most of these are members of what Drizzle gives you, so the marker follows each value from where it's made: `db` from `drizzle()`, a table from `pgTable()`, and so on. It follows values across your files too, as long as your project's `package.json` lists one of Drizzle's packages, or one of your monorepo's own packages that does:
 
 - `db` and your tables imported from another file, like `$lib/server/db` or `@/db/schema`
+- `db` imported from another package of your monorepo, like `@repo/db`
 - a function of yours that returns `drizzle(...)`, as in `getDb(env.DB).select()`
 - a parameter typed with one of Drizzle's types, like `tx: PgTransaction`, or with `typeof db`
 
-Imports are followed through relative paths, the `imports` in `package.json` (like `#lib/...`), `paths` in `tsconfig.json` or `jsconfig.json`, and SvelteKit's `$lib`. Files open in the editor count with their unsaved changes.
+Imports are followed through relative paths, the `imports` in `package.json` (like `#lib/...`), `paths` in `tsconfig.json` or `jsconfig.json`, SvelteKit's `$lib`, and the `exports` or `main` of your monorepo's own packages, which your package manager links into `node_modules`. Packages you install aren't followed. Files open in the editor count with their unsaved changes.
 
 Some names stay unmarked on purpose. Your own keys stay clear wherever they are: column keys in `pgTable()`, in `.values({ ... })` and in `.select({ ... })`, relation names in `with: { posts: true }`, and the names of placeholders in `prepared.execute({ limit: 1 })`. So does a name you choose for something of Drizzle's: `database` in `const database = drizzle(url)`, `equals` in `import { eq as equals }`, and `t` in `import * as t`. A local name that hides an import, like `eq` in `function byName(eq) {}`, stays unmarked, and so do the methods every promise has, like `then`.
 
@@ -74,5 +75,7 @@ Any tint behind text lowers its contrast. On Dark Modern, Dark 2026 and both hig
 | `npm run vsix` | packages the extension into a `.vsix` file |
 
 Press F5 in VS Code to open a second window with the extension loaded and `samples/` open.
+
+GitHub runs `npm run check`, `npm test` and `npm run build` on every push to `main` and on every pull request, in `.github/workflows/ci.yml`.
 
 The marker reads both versions of Drizzle, installed as `drizzle-orm` and `drizzle-orm-1`, and the other packages, and writes what their values hold to `src/generatedShapes.json`. `test/shapes.test.ts` fails when an update to any of them adds or renames an export, until you run `npm run shapes`. `test/corpus` holds real Drizzle code, from Drizzle's documentation and from a SvelteKit app, with a hand-written list of the marks each file should get. See its README.

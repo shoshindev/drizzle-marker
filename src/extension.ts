@@ -6,7 +6,7 @@ import { dirname } from 'node:path';
 import * as vscode from 'vscode';
 import { DrizzleFiles } from './drizzleFiles.ts';
 import { findMarks, type Context, type Result } from './findMarks.ts';
-import { importReader, usesDrizzle } from './imports.ts';
+import { importReader, packageNameOf, usesDrizzle } from './imports.ts';
 import { MarkMemory } from './markMemory.ts';
 
 // The kinds of file that can hold Drizzle code.
@@ -50,7 +50,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Your files that use Drizzle. Until they've all been read, any file in a
   // project that uses Drizzle might use it too.
-  const drizzleFiles = new DrizzleFiles();
+  const drizzleFiles = new DrizzleFiles(packageNameOf);
   let scanned = false;
 
   // Files open in the editor count with their unsaved changes, when another
@@ -93,6 +93,10 @@ export function activate(context: vscode.ExtensionContext) {
 
   let typingTimer: NodeJS.Timeout | undefined;
 
+  // The version of each file whose marks couldn't be found because of a bug in
+  // the marker, so the error is logged once, not on every repaint.
+  const failedVersions = new Map<string, number>();
+
   function paint(editor: vscode.TextEditor, afterEdit: boolean) {
     const { document } = editor;
     if (!LANGUAGES.includes(document.languageId)) return;
@@ -102,10 +106,22 @@ export function activate(context: vscode.ExtensionContext) {
       return;
     }
 
+    const key = document.uri.toString();
     const started = performance.now();
-    const result = marksFor(document);
+    let result: Result;
+    try {
+      result = marksFor(document);
+    } catch (error) {
+      // The other editors still get painted, and this one keeps its last good
+      // marks, as when its code is half-typed.
+      if (failedVersions.get(key) !== document.version) {
+        failedVersions.set(key, document.version);
+        log.error(`Couldn't find the marks in ${document.fileName}: ${error instanceof Error ? error.stack : error}`);
+      }
+      result = { marks: [], complete: false };
+    }
     log.trace(`Found ${result.marks.length} marks in ${document.fileName} in ${(performance.now() - started).toFixed(1)} ms`);
-    const marks = memory.marksToPaint(document.uri.toString(), result, afterEdit);
+    const marks = memory.marksToPaint(key, result, afterEdit);
     if (!marks) return;
     const ranges = marks.map(
       (mark) => new vscode.Range(document.positionAt(mark.start), document.positionAt(mark.end)),
@@ -157,8 +173,13 @@ export function activate(context: vscode.ExtensionContext) {
     }
   }
 
+  // A package.json can add or remove Drizzle, or rename one of your packages.
   const packageFiles = vscode.workspace.createFileSystemWatcher('**/package.json');
-  const forgetProjects = () => projects.clear();
+  const forgetProjects = () => {
+    projects.clear();
+    drizzleFiles.forgetPackageNames();
+    paintVisibleEditors(false);
+  };
   const codeFiles = vscode.workspace.createFileSystemWatcher(CODE_FILES);
 
   // Everything in this list is cleaned up when the extension shuts down.
@@ -193,6 +214,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     vscode.workspace.onDidCloseTextDocument((document) => {
       memory.forget(document.uri.toString());
+      failedVersions.delete(document.uri.toString());
     }),
   );
 

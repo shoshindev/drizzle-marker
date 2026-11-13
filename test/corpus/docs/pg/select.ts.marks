@@ -1,0 +1,199 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# `SQL` in `SQL[]` is never imported in this page. `having()` passes your own
+# selection, so `count` on line 301 is your name, and so are the columns
+# taken out of `getColumns()` on line 92.
+4: pgTable, serial, text, integer, drizzle-orm/pg-core
+5: getColumns, sql, drizzle-orm
+6: PgColumn, drizzle-orm/pg-core
+7: eq, not, drizzle-orm
+8: and, drizzle-orm
+9: or, drizzle-orm
+10: asc, desc, drizzle-orm
+11: gt, drizzle-orm
+12: count, drizzle-orm
+13: countDistinct, drizzle-orm
+14: avg, drizzle-orm
+15: avgDistinct, drizzle-orm
+16: sum, drizzle-orm
+17: sumDistinct, drizzle-orm
+18: max, drizzle-orm
+19: min, drizzle-orm
+20: numeric, primaryKey, timestamp, drizzle-orm/pg-core
+21: ilike, inArray, drizzle-orm
+22: drizzle, drizzle-orm/node-postgres
+23: drizzle
+26: pgTable
+27: serial, primaryKey
+28: text, notNull
+29: integer
+34: select, from
+45: select
+48: from
+54: select
+56: sql
+57: from
+63: select
+67: from
+74: selectDistinct, from, orderBy
+76: selectDistinct, from, orderBy
+80: selectDistinctOn, from, orderBy
+81: selectDistinctOn, from, orderBy
+85: select
+86: getColumns
+87: sql
+88: from
+92: getColumns
+93: select, from
+97: query, findMany
+98: columns
+105: query, findMany
+106: columns
+113: PgColumn
+114: sql
+117: select, from, where, sql
+118: select, from, where, sql
+119: select, from, where
+120: select, from, where, sql
+121: select, from, where, sql
+122: select, from, where, sql
+126: select, from, where, eq
+130: select, from, where, not, eq
+131: select, from, where, sql
+135: select, from, where
+136: and
+137: eq
+138: eq
+141: select, from, where, sql
+145: select, from, where
+146: or
+147: eq
+148: eq
+151: select, from, where, sql
+157: select
+158: from
+159: where, ilike
+168: select
+169: from
+170: where, and
+173: ilike
+174: inArray
+175: gt
+180: select, from, limit
+181: select, from, limit, offset
+185: select, from, orderBy
+186: select, from, orderBy, desc
+189: select, from, orderBy
+190: select, from, orderBy, asc, desc
+195: select
+196: from
+197: orderBy, asc
+198: limit
+199: offset
+204: query, findMany
+205: orderBy, asc, asc
+206: limit
+207: offset
+216: select
+217: from
+218: orderBy
+219: limit
+220: offset
+221: as
+222: select, from, innerJoin, eq, orderBy
+229: select
+230: from
+231: where, gt
+232: limit
+233: orderBy, asc
+240: $with, as, select, from, where, eq
+242: with, select, from
+246: $with, as
+247: insert, values, returning
+250: with, select, from
+254: $with, as
+255: update, set, where, eq, returning
+257: with, select, from
+261: $with, as
+262: delete, where, eq, returning
+265: with, select, from
+269: $with, as, select
+270: sql, as
+272: from
+274: with, select, from
+278: select, from, where, eq, as
+279: select, from
+283: select, from, where, eq, as
+284: select, from, leftJoin, eq
+288: select
+290: sql
+292: from
+293: groupBy
+295: select
+297: sql
+299: from
+300: groupBy
+301: having, gt
+305: select, count, from
+306: select, count, from
+311: select
+312: sql, mapWith
+313: from
+315: select
+316: sql, mapWith
+317: from
+321: select, countDistinct, from
+326: select
+327: sql, mapWith
+328: from
+332: select, avg, from
+337: select
+338: sql, mapWith
+339: from
+343: select, avgDistinct, from
+348: select
+349: sql, mapWith
+350: from
+354: select, sum, from
+359: select
+360: sql, mapWith
+361: from
+365: select, sumDistinct, from
+370: select
+371: sql, mapWith
+372: from
+376: select, max, from
+381: select
+382: sql, mapWith
+383: from
+387: select, min, from
+392: select
+393: sql, mapWith
+394: from
+398: pgTable
+399: integer, primaryKey
+400: timestamp, withTimezone, notNull
+401: timestamp, withTimezone, notNull
+402: timestamp, withTimezone
+403: integer, notNull
+404: numeric, notNull
+405: text, notNull
+406: text, notNull
+407: text
+408: text
+409: text, notNull
+410: text, notNull
+411: integer, notNull
+414: pgTable
+415: numeric, notNull
+416: integer, notNull
+417: numeric, notNull
+418: integer, notNull
+419: integer, notNull
+424: select
+430: sql
+431: sql
+432: sql
+434: from
+435: leftJoin, eq
+436: groupBy
+437: orderBy, asc

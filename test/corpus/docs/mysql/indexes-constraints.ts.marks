@@ -1,0 +1,46 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# Drizzle fixes the strings of `algorithm`, `using` and `lock` on lines 86-88.
+4: sql, drizzle-orm
+5: int, time, mysqlTable, drizzle-orm/mysql-core
+6: check, text, drizzle-orm/mysql-core
+7: primaryKey, drizzle-orm/mysql-core
+8: foreignKey, AnyMySqlColumn, drizzle-orm/mysql-core
+9: index, uniqueIndex, drizzle-orm/mysql-core
+10: drizzle, drizzle-orm/mysql2
+11: drizzle
+14: mysqlTable
+15: int, default
+16: time, default, sql
+21: mysqlTable
+22: int, notNull
+27: mysqlTable
+30: int, primaryKey
+31: text, notNull
+32: int
+35: check, sql
+41: mysqlTable
+42: int, autoincrement, primaryKey
+45: mysqlTable
+46: text, primaryKey
+51: mysqlTable
+52: int, autoincrement, primaryKey
+53: text
+56: mysqlTable
+57: int, autoincrement, primaryKey
+58: text
+61: mysqlTable
+62: int
+63: int
+65: primaryKey, columns
+67: primaryKey, name, columns
+72: mysqlTable
+73: int, primaryKey, autoincrement
+74: text
+75: text
+77: index, on
+78: uniqueIndex, on
+84: index
+85: on
+86: algorithm, default
+87: using, btree
+88: lock, default

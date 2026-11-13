@@ -1,0 +1,11 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+4: SQL, sql, drizzle-orm
+5: customType, index, integer, pgTable, text, drizzle-orm/pg-core
+6: drizzle, drizzle-orm/node-postgres
+7: drizzle
+10: pgTable
+11: text, generatedAlwaysAs, sql
+16: pgTable
+17: text
+18: text, generatedAlwaysAs
+19: SQL, sql

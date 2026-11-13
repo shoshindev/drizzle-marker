@@ -1,0 +1,18 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+5: avg, eq, gt, sql, drizzle-orm
+6: drizzle, drizzle-orm/node-postgres
+7: drizzle
+10: delete
+14: delete, where, eq
+18: delete
+19: where, eq
+20: returning
+23: delete
+24: where, eq
+25: returning
+31: $with, as
+32: select, sql, as, from
+36: with
+37: delete
+38: where, gt, sql
+39: returning

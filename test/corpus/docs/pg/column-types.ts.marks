@@ -1,0 +1,153 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# Lines like `bigint: bigint(...)` alone in a block start with a label, which is
+# your name. `SQL` on line 312 is never imported in this page.
+4: integer, pgTable, drizzle-orm/pg-core
+5: sql, drizzle-orm
+6: smallint, drizzle-orm/pg-core
+7: bigint, drizzle-orm/pg-core
+8: serial, drizzle-orm/pg-core
+9: smallserial, drizzle-orm/pg-core
+10: bigserial, drizzle-orm/pg-core
+11: boolean, drizzle-orm/pg-core
+12: bytea, drizzle-orm/pg-core
+13: text, drizzle-orm/pg-core
+14: numeric, drizzle-orm/pg-core
+15: real, drizzle-orm/pg-core
+16: doublePrecision, drizzle-orm/pg-core
+17: json, drizzle-orm/pg-core
+18: jsonb, drizzle-orm/pg-core
+19: uuid, drizzle-orm/pg-core
+20: time, drizzle-orm/pg-core
+21: timestamp, drizzle-orm/pg-core
+22: date, drizzle-orm/pg-core
+23: interval, drizzle-orm/pg-core
+24: pgEnum, drizzle-orm/pg-core
+25: inet, drizzle-orm/pg-core
+26: cidr, drizzle-orm/pg-core
+27: macaddr, drizzle-orm/pg-core
+28: macaddr8, drizzle-orm/pg-core
+30: line, point, primaryKey, drizzle-orm/pg-core
+31: drizzle, drizzle-orm/node-postgres
+32: drizzle
+35: pgTable
+36: integer
+41: pgTable
+42: integer, default
+43: integer, default, sql
+48: pgTable
+49: smallint
+54: pgTable
+55: smallint, default
+56: smallint, default, sql
+61: pgTable
+62: bigint, mode, number
+66: bigint, mode, number
+69: bigint, mode, bigint
+73: pgTable
+74: bigint, mode, number, default
+75: bigint, mode, number, default, sql
+80: pgTable
+81: serial
+86: pgTable
+87: smallserial
+92: pgTable
+93: bigserial, mode, number
+98: pgTable
+99: boolean
+100: boolean, default
+101: boolean, default, sql
+106: pgTable
+107: bytea
+112: pgTable
+113: text
+117: text, enum
+121: pgTable
+122: numeric
+123: numeric, precision
+124: numeric, precision, scale
+125: numeric, mode, number
+126: numeric, mode, bigint
+131: pgTable
+132: real
+133: real, default
+134: real, default, sql
+139: pgTable
+140: doublePrecision
+141: doublePrecision, default
+142: doublePrecision, default, sql
+147: pgTable
+148: json
+149: json, default
+150: json, default, sql
+156: json, $type
+159: json, $type
+162: json, $type, default
+166: pgTable
+167: jsonb
+168: jsonb, default
+169: jsonb, default, sql
+175: jsonb, $type
+178: jsonb, $type
+181: jsonb, $type, default
+185: pgTable
+186: uuid
+187: uuid, defaultRandom
+188: uuid, default
+193: pgTable
+194: time
+195: time, withTimezone
+196: time, precision
+197: time, precision, withTimezone
+202: pgTable
+203: timestamp
+204: timestamp, precision, withTimezone
+205: timestamp, defaultNow
+206: timestamp, default, sql
+211: pgTable
+212: date
+217: pgTable
+218: interval
+219: interval, fields, day to second, precision
+220: interval, fields, month
+225: pgTable
+226: point
+227: point, mode, xy
+232: pgTable
+233: line
+234: line, mode, abc
+239: pgEnum
+241: pgTable
+247: pgTable
+248: inet
+249: inet, default
+254: pgTable
+255: cidr
+256: cidr, default
+261: pgTable
+262: macaddr
+263: macaddr, default
+268: pgTable
+269: macaddr8
+270: macaddr8, default
+281: pgTable
+282: serial, $type, primaryKey
+283: json, $type
+288: pgTable
+289: integer, primaryKey, generatedAlwaysAsIdentity, startWith
+290: text, notNull
+291: text
+296: pgTable
+297: integer, default
+298: integer, default, sql
+299: uuid, defaultRandom
+300: uuid, default, sql
+305: pgTable
+306: text, $defaultFn
+311: pgTable
+312: integer, default, sql, $onUpdateFn, sql
+313: timestamp, mode, date, precision, $onUpdate
+314: text, $type, $onUpdate
+319: pgTable
+320: integer, notNull
+325: pgTable
+326: serial, primaryKey

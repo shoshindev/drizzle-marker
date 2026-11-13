@@ -1,9 +1,7 @@
 // Checks the marker against real code. test/corpus holds the test set: real
 // files, each with a hand-written list of the marks it should get, in a .marks
-// file next to it. test/snapshots holds more pages of Drizzle's docs with the
-// marks they got when they were last checked, written into the text as ⟦this⟧.
-// For both, the files are cut off at many points, as if half-typed, and timed.
-// See test/corpus/README.md.
+// file next to it. The files are also cut off at many points, as if half-typed,
+// and timed. See test/corpus/README.md.
 
 import assert from 'node:assert/strict';
 import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
@@ -13,10 +11,8 @@ import { after, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { findMarks, type Context, type Mark, type Options } from '../src/findMarks.ts';
 import { importReader } from '../src/imports.ts';
-import { readMarks, showMarks } from './view.ts';
 
 const CORPUS = fileURLToPath(new URL('corpus/', import.meta.url));
-const SNAPSHOTS = fileURLToPath(new URL('snapshots/', import.meta.url));
 const CODE_FILE = /\.[cm]?[jt]sx?$/;
 
 function filesIn(folder: string): string[] {
@@ -35,10 +31,8 @@ interface CorpusFile {
   name: string;
   fileName: string;
   text: string;
-  // The hand-written list, by line number, for a file in the test set.
-  expected?: Map<number, string[]>;
-  // The marked text, for a snapshot.
-  snapshot?: string;
+  // The hand-written list, by line number.
+  expected: Map<number, string[]>;
 }
 
 // Reads a .marks file: `12: select, from, where` for each line with marks.
@@ -64,17 +58,6 @@ for (const source of filesIn(CORPUS)) {
   if (!CODE_FILE.test(name)) continue;
   files.push({ name, fileName, text, expected: readList(readFileSync(`${source}.marks`, 'utf8')) });
 }
-for (const source of filesIn(SNAPSHOTS)) {
-  if (!source.endsWith('.marked')) continue;
-  const name = relative(SNAPSHOTS, source).replace(/\.marked$/, '');
-  const fileName = join(folder, 'snapshots', name);
-  mkdirSync(dirname(fileName), { recursive: true });
-  const snapshot = readFileSync(source, 'utf8');
-  const { text } = readMarks(snapshot);
-  writeFileSync(fileName, text);
-  files.push({ name: `snapshots/${name}`, fileName, text, snapshot });
-}
-
 const readImport = importReader();
 const optionsFor = (fileName: string): Options => ({ jsx: !/\.[cm]?ts$/.test(fileName), dts: false });
 const contextFor = (fileName: string): Context => ({ fileName, readImport });
@@ -97,7 +80,7 @@ function differences(want: Map<number, string[]>, got: Map<number, string[]>): s
 }
 
 test('the test set has the files the README describes', () => {
-  const set = files.filter((file) => file.expected);
+  const set = files;
   assert.equal(set.filter((file) => file.name.startsWith('horizons/')).length, 4);
   for (const dialect of ['pg', 'mysql', 'sqlite']) {
     assert.ok(set.some((file) => file.name.startsWith(`docs/${dialect}/`)), dialect);
@@ -105,19 +88,11 @@ test('the test set has the files the README describes', () => {
 });
 
 for (const file of files) {
-  test(`marks ${file.name} as ${file.expected ? 'the hand-written list says' : 'its snapshot shows'}`, () => {
+  test(`marks ${file.name} as the hand-written list says`, () => {
     const { marks, complete } = findMarks(file.text, optionsFor(file.fileName), contextFor(file.fileName));
     assert.ok(complete, 'the file should parse');
-    if (file.expected) {
-      const wrong = differences(file.expected, byLine(file.text, marks));
-      assert.ok(wrong.length === 0, wrong.slice(0, 20).join('\n'));
-    } else {
-      const actual = showMarks(file.text, marks);
-      if (actual !== file.snapshot) {
-        const want = byLine(readMarks(file.snapshot!).text, readMarks(file.snapshot!).marks);
-        assert.fail(differences(want, byLine(file.text, marks)).slice(0, 20).join('\n'));
-      }
-    }
+    const wrong = differences(file.expected, byLine(file.text, marks));
+    assert.ok(wrong.length === 0, wrong.slice(0, 20).join('\n'));
   });
 }
 
@@ -151,7 +126,7 @@ test('never throws on half-typed versions of the files', () => {
   }
 });
 
-test('finds marks in under 10 ms for a typical file and under 50 ms for any', () => {
+test('finds marks in under 10 ms for a typical file and under 50 ms for any', (context) => {
   const timings = files.map((file) => {
     const options = optionsFor(file.fileName);
     const context = contextFor(file.fileName);
@@ -167,6 +142,7 @@ test('finds marks in under 10 ms for a typical file and under 50 ms for any', ()
   const sorted = timings.map((timing) => timing.ms).sort((a, b) => a - b);
   const typical = sorted[Math.floor(sorted.length / 2)];
   const slowest = timings.reduce((a, b) => (b.ms > a.ms ? b : a));
+  context.diagnostic(`${timings.length} files: typical ${typical.toFixed(2)} ms, slowest ${slowest.ms.toFixed(2)} ms (${slowest.name})`);
   assert.ok(typical < 10, `typical file took ${typical.toFixed(1)} ms`);
   assert.ok(slowest.ms < 50, `${slowest.name} took ${slowest.ms.toFixed(1)} ms`);
 });

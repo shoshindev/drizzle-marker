@@ -1,0 +1,80 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# The enum values and default strings on line 166 are yours.
+4: int, mysqlTable, varchar, drizzle-orm/mysql-core
+5: drizzle-orm/mysql-core
+6: defineConfig, drizzle-kit
+7: snakeCase, camelCase, drizzle-orm/mysql-core
+8: drizzle, drizzle-orm/mysql2
+9: mysqlSchema, drizzle-orm/mysql-core
+10: mysqlTable, drizzle-orm/mysql-core
+11: AnyMySqlColumn, drizzle-orm/mysql-core
+12: index, mysqlEnum, primaryKey, text, timestamp, unique, uniqueIndex, drizzle-orm/mysql-core
+13: sql, drizzle-orm
+14: drizzle
+17: mysqlTable
+18: int, primaryKey, autoincrement
+19: varchar, length, notNull
+20: int, notNull
+21: varchar, length, notNull, unique
+26: mysqlTable
+27: int, primaryKey, autoincrement
+28: varchar, length, notNull
+29: int, notNull
+30: varchar, length, notNull, unique
+35: mysqlTable
+36: int, primaryKey, autoincrement
+37: varchar, length, notNull
+38: int, notNull
+39: varchar, length, notNull, unique
+44: defineConfig
+45: dialect, mysql
+46: schema
+51: defineConfig
+52: dialect, mysql
+53: schema
+58: mysqlTable
+59: int
+67: mysqlTable
+68: int
+69: varchar, length
+75: select, from
+82: mysqlTable
+83: int
+84: varchar, length
+90: select, from
+97: snakeCase, table
+98: int, primaryKey, autoincrement
+99: text
+100: timestamp
+104: snakeCase, table, snakeCase, view, snakeCase, schema
+105: camelCase, table, camelCase, view, camelCase, schema
+112: drizzle, connection
+117: select, from
+123: timestamp
+124: timestamp, defaultNow, notNull
+125: timestamp
+131: mysqlTable
+132: int
+139: mysqlTable
+140: int
+146: mysqlSchema
+150: mysqlSchema
+152: table
+153: int
+161: int, primaryKey, autoincrement
+162: varchar, length
+163: varchar, length
+164: varchar, length, notNull
+165: int, references, AnyMySqlColumn
+166: mysqlEnum, default
+169: uniqueIndex, on
+176: int, primaryKey, autoincrement
+177: varchar, length, $default
+178: varchar, length
+179: int, references
+182: uniqueIndex, on
+183: index, on
+188: int, primaryKey, autoincrement
+189: varchar, length
+190: int, references
+191: int, references

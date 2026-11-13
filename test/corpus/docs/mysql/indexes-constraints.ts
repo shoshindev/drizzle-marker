@@ -1,0 +1,89 @@
+// From "indexes-constraints" in Drizzle's docs for MySQL, by the Drizzle team, CC BY 4.0.
+// See test/corpus/docs/README.md for what was changed.
+
+import { sql } from "drizzle-orm";
+import { int, time, mysqlTable } from "drizzle-orm/mysql-core";
+import { check, text } from 'drizzle-orm/mysql-core';
+import { primaryKey } from 'drizzle-orm/mysql-core';
+import { foreignKey, AnyMySqlColumn } from 'drizzle-orm/mysql-core';
+import { index, uniqueIndex } from 'drizzle-orm/mysql-core';
+import { drizzle } from 'drizzle-orm/mysql2';
+const db = drizzle(process.env.DATABASE_URL!);
+
+{
+  const table = mysqlTable("table", {
+    int: int().default(42),
+    time: time().default(sql`cast("14:06:10" AS TIME)`),
+  });
+}
+
+{
+  const table = mysqlTable('table', {
+    int: int().notNull(),
+  });
+}
+
+{
+  const users = mysqlTable(
+    "users",
+    {
+      id: int().primaryKey(),
+      username: text().notNull(),
+      age: int(),
+    },
+    (table) => [
+      check("age_check1", sql`${table.age} > 21`)
+    ]
+  );
+}
+
+{
+  const user = mysqlTable("user", {
+    id: int().autoincrement().primaryKey(),
+  })
+
+  const table = mysqlTable("table", {
+    cuid: text().primaryKey(),
+  })
+}
+
+{
+  const user = mysqlTable("user", {
+    id: int("id").autoincrement().primaryKey(),
+    name: text("name"),
+  });
+
+  const book = mysqlTable("book", {
+    id: int().autoincrement().primaryKey(),
+    name: text(),
+  });
+
+  const booksToAuthors = mysqlTable("books_to_authors", {
+    authorId: int(),
+    bookId: int(),
+  }, (table) => [
+    primaryKey({ columns: [table.bookId, table.authorId] }),
+    // Or PK with custom name
+    primaryKey({ name: 'custom_name', columns: [table.bookId, table.authorId] })
+  ]);
+}
+
+{
+  const user = mysqlTable("user", {
+    id: int("id").primaryKey().autoincrement(),
+    name: text("name"),
+    email: text("email"),
+  }, (table) => [
+    index("name_idx").on(table.name),
+    uniqueIndex("email_idx").on(table.email),
+  ]);
+}
+
+{
+  // Index declaration reference
+  index("name")
+    .on(table.name)
+    .algorithm("default") // "default" | "copy" | "inplace"
+    .using("btree") // "btree" | "hash"
+    .lock("default") // "none" | "default" | "exclusive" | "shared"
+}

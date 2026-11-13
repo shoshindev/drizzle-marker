@@ -1,0 +1,76 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# The strings in `$type<...>` and `.default("guest")` on line 151 are yours.
+4: integer, sqliteTable, text, drizzle-orm/sqlite-core
+5: drizzle-orm/sqlite-core
+6: defineConfig, drizzle-kit
+7: snakeCase, camelCase, drizzle-orm/sqlite-core
+8: drizzle, drizzle-orm/better-sqlite3
+9: index, primaryKey, unique, uniqueIndex, drizzle-orm/sqlite-core
+10: sql, drizzle-orm
+11: drizzle
+14: sqliteTable
+15: integer, primaryKey, autoIncrement
+16: text, notNull
+17: integer, notNull
+18: text, notNull, unique
+23: sqliteTable
+24: integer, primaryKey, autoIncrement
+25: text, notNull
+26: integer, notNull
+27: text, notNull, unique
+32: sqliteTable
+33: integer, primaryKey, autoIncrement
+34: text, notNull
+35: integer, notNull
+36: text, notNull, unique
+41: defineConfig
+42: dialect, sqlite
+43: schema
+48: defineConfig
+49: dialect, sqlite
+50: schema
+55: sqliteTable
+56: integer
+64: sqliteTable
+65: integer
+66: text
+72: select, from
+79: sqliteTable
+80: integer
+81: text
+87: select, from
+94: snakeCase, table
+95: integer, primaryKey
+96: text
+97: integer, mode, timestamp
+101: snakeCase, table, snakeCase, view
+102: camelCase, table, camelCase, view
+109: drizzle, connection
+114: select, from
+120: text
+121: text, $defaultFn, notNull
+122: text
+128: sqliteTable
+129: integer
+136: sqliteTable
+137: integer
+143: sqliteTable
+146: integer, primaryKey, autoIncrement
+147: text
+148: text
+149: text, notNull
+150: integer, references, AnySQLiteColumn
+151: text, $type, default
+154: uniqueIndex, on
+158: sqliteTable
+161: integer, primaryKey, autoIncrement
+162: text, $default
+163: text
+164: integer, references
+167: uniqueIndex, on
+168: index, on
+172: sqliteTable
+173: integer, primaryKey, autoIncrement
+174: text, length
+175: integer, references
+176: integer, references

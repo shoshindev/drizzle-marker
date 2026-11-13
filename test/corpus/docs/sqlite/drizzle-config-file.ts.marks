@@ -1,0 +1,84 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# Drizzle fixes the strings of `dialect`, `driver` and `casing`. Paths, table
+# names, filters and credentials are yours.
+4: defineConfig, drizzle-kit
+5: drizzle-orm/sqlite-core
+6: integer, primaryKey, sqliteTable, text, drizzle-orm/sqlite-core
+7: drizzle, drizzle-orm/libsql
+8: drizzle
+11: defineConfig
+12: dialect, sqlite
+13: schema
+14: out
+19: defineConfig
+20: dialect, sqlite
+21: schema
+22: out
+27: defineConfig
+28: out
+29: dialect, sqlite
+30: schema
+32: driver, d1-http
+33: dbCredentials
+34: url
+37: tablesFilter
+39: introspect
+40: casing, camel
+43: migrations
+44: table
+47: breakpoints
+48: verbose
+53: defineConfig
+54: dialect, sqlite
+55: schema
+56: out
+61: defineConfig
+62: dialect, sqlite
+67: defineConfig
+68: out
+73: defineConfig
+74: dialect, sqlite
+75: driver, d1-http
+76: dbCredentials
+77: accountId
+78: databaseId
+79: token
+85: defineConfig
+86: dialect, sqlite
+87: dbCredentials
+88: url
+90: url
+92: url
+98: defineConfig
+99: dialect, sqlite
+100: driver, d1-http
+101: dbCredentials
+102: accountId
+103: databaseId
+104: token
+110: defineConfig
+111: dialect, sqlite
+112: schema
+113: migrations
+114: table
+120: sqliteTable
+121: integer, primaryKey, autoIncrement
+122: text
+123: text
+124: text
+125: text
+130: sqliteTable
+131: integer, primaryKey, autoIncrement
+132: text
+133: text
+134: text
+135: text
+140: defineConfig
+141: dialect, sqlite
+142: tablesFilter
+147: defineConfig
+148: dialect, sqlite
+149: verbose
+154: defineConfig
+155: dialect, sqlite
+156: breakpoints

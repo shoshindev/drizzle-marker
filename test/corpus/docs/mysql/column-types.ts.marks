@@ -1,0 +1,138 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# Lines 73 and 76 are pseudo-code from the docs: `'number' | 'bigint'` is a bitwise
+# OR of strings, not a string passed as `mode`, so the strings stay unmarked.
+4: int, mysqlTable, drizzle-orm/mysql-core
+5: tinyint, drizzle-orm/mysql-core
+6: smallint, drizzle-orm/mysql-core
+7: mediumint, drizzle-orm/mysql-core
+8: bigint, drizzle-orm/mysql-core
+9: real, drizzle-orm/mysql-core
+10: decimal, drizzle-orm/mysql-core
+11: double, drizzle-orm/mysql-core
+12: float, drizzle-orm/mysql-core
+13: serial, drizzle-orm/mysql-core
+14: binary, drizzle-orm/mysql-core
+15: varbinary, drizzle-orm/mysql-core
+16: blob, drizzle-orm/mysql-core
+17: tinyblob, drizzle-orm/mysql-core
+18: mediumblob, drizzle-orm/mysql-core
+19: longblob, drizzle-orm/mysql-core
+20: char, drizzle-orm/mysql-core
+21: varchar, drizzle-orm/mysql-core
+22: text, drizzle-orm/mysql-core
+23: tinytext, drizzle-orm/mysql-core
+24: mediumtext, drizzle-orm/mysql-core
+25: longtext, drizzle-orm/mysql-core
+26: boolean, drizzle-orm/mysql-core
+27: date, drizzle-orm/mysql-core
+28: datetime, drizzle-orm/mysql-core
+29: year, drizzle-orm/mysql-core
+30: timestamp, drizzle-orm/mysql-core
+31: json, drizzle-orm/mysql-core
+32: mysqlEnum, drizzle-orm/mysql-core
+33: sql, drizzle-orm
+35: primaryKey, drizzle-orm/mysql-core
+36: drizzle, drizzle-orm/mysql2
+37: drizzle
+40: mysqlTable
+41: int
+42: int, unsigned
+47: mysqlTable
+48: tinyint
+49: tinyint, unsigned
+54: mysqlTable
+55: smallint
+56: smallint, unsigned
+61: mysqlTable
+62: mediumint
+63: mediumint, unsigned
+68: mysqlTable
+69: bigint, mode, number
+70: bigint, mode, number, unsigned
+73: bigint, mode
+76: bigint, mode, unsigned
+80: mysqlTable
+81: real
+86: mysqlTable
+87: real, precision
+88: real, precision, scale
+93: mysqlTable
+94: decimal
+95: decimal, precision, mode, number
+96: decimal, precision, mode, bigint
+97: decimal, precision, scale
+102: mysqlTable
+103: double
+108: mysqlTable
+109: double, precision
+110: double, precision, scale
+115: mysqlTable
+116: float
+121: mysqlTable
+122: serial
+127: mysqlTable
+128: binary
+129: binary, length
+134: mysqlTable
+135: varbinary, length
+140: mysqlTable
+141: blob
+146: mysqlTable
+147: tinyblob
+152: mysqlTable
+153: mediumblob
+158: mysqlTable
+159: longblob
+164: mysqlTable
+165: char
+169: char, enum
+173: mysqlTable
+174: varchar, length
+178: varchar, length, enum
+182: mysqlTable
+183: text
+187: text, enum
+191: mysqlTable
+192: tinytext
+196: tinytext, enum
+200: mysqlTable
+201: mediumtext
+205: mediumtext, enum
+209: mysqlTable
+210: longtext
+214: longtext, enum
+218: mysqlTable
+219: boolean
+224: mysqlTable
+225: date
+230: mysqlTable
+231: datetime, mode, date, fsp
+236: mysqlTable
+237: year
+242: mysqlTable
+243: timestamp, mode, date, fsp
+248: mysqlTable
+249: timestamp, defaultNow
+254: mysqlTable
+255: json
+261: json, $type
+264: json, $type
+267: json, $type, default
+271: mysqlTable
+272: mysqlEnum
+283: mysqlTable
+284: int, $type, primaryKey
+285: json, $type
+290: mysqlTable
+291: int, notNull
+296: mysqlTable
+297: int, default
+298: int, default, sql
+303: mysqlTable
+304: varchar, length, $defaultFn
+309: mysqlTable
+310: text, $type, $onUpdate
+315: mysqlTable
+316: int, primaryKey
+321: mysqlTable
+322: int, autoincrement

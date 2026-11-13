@@ -1,0 +1,60 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# Lines like `json: blob(...)` alone in a block start with a label, your name.
+4: integer, sqliteTable, drizzle-orm/sqlite-core
+5: real, drizzle-orm/sqlite-core
+6: text, drizzle-orm/sqlite-core
+7: blob, drizzle-orm/sqlite-core
+8: numeric, drizzle-orm/sqlite-core
+9: sql, drizzle-orm
+11: primaryKey, drizzle-orm/sqlite-core
+12: drizzle, drizzle-orm/libsql
+13: drizzle
+16: sqliteTable
+17: integer
+21: integer, mode, number
+22: integer, mode, boolean
+23: integer, mode, timestamp_ms
+24: integer, mode, timestamp
+29: integer, mode, number, primaryKey, autoIncrement
+33: sqliteTable
+34: real
+39: sqliteTable
+40: text
+44: text, enum
+45: text, mode, json
+46: text, mode, json, $type
+50: sqliteTable
+51: blob
+54: blob
+55: blob, mode, buffer
+56: blob, mode, bigint
+58: blob, mode, json
+59: blob, mode, json, $type
+64: blob, mode, json, $type
+67: blob, mode, json, $type
+70: blob, mode, json, $type, default
+74: sqliteTable
+75: integer, mode, boolean
+80: sqliteTable
+81: blob, mode, bigint
+86: sqliteTable
+87: numeric
+88: numeric, mode, number
+89: numeric, mode, bigint
+90: numeric, mode, string
+101: sqliteTable
+102: integer, $type, primaryKey
+103: blob, $type
+108: sqliteTable
+109: integer, notNull
+114: sqliteTable
+115: integer, default
+116: integer, default, sql
+121: sqliteTable
+122: text, default, sql
+123: text, default, sql
+124: text, default, sql
+129: sqliteTable
+130: text, $defaultFn
+135: sqliteTable
+136: text, $type, $onUpdate

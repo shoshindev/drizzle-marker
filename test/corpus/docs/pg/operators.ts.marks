@@ -1,0 +1,70 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+4: eq, drizzle-orm
+5: ne, drizzle-orm
+6: gt, drizzle-orm
+7: gte, drizzle-orm
+8: lt, drizzle-orm
+9: lte, drizzle-orm
+10: exists, drizzle-orm
+11: notExists, drizzle-orm
+12: isNull, drizzle-orm
+13: isNotNull, drizzle-orm
+14: inArray, drizzle-orm
+15: notInArray, drizzle-orm
+16: between, drizzle-orm
+17: notBetween, drizzle-orm
+18: like, drizzle-orm
+19: notLike, drizzle-orm
+20: ilike, drizzle-orm
+21: notIlike, drizzle-orm
+22: not, drizzle-orm
+23: and, drizzle-orm
+24: or, drizzle-orm
+25: arrayContains, drizzle-orm
+26: arrayContained, drizzle-orm
+27: arrayOverlaps, drizzle-orm
+28: drizzle, drizzle-orm/node-postgres
+29: drizzle
+32: select, from, where, eq
+36: select, from, where, eq
+40: select, from, where, eq
+44: select, from, where, ne
+48: select, from, where, ne
+52: select, from, where, gt
+56: select, from, where, gt
+60: select, from, where, gte
+64: select, from, where, gte
+68: select, from, where, lt
+72: select, from, where, lt
+76: select, from, where, lte
+80: select, from, where, lte
+84: select, from
+85: select, from, where, exists
+89: select, from
+90: select, from, where, notExists
+94: select, from, where, isNull
+98: select, from, where, isNotNull
+102: select, from, where, inArray
+106: select, from
+107: select, from, where, inArray
+111: select, from, where, notInArray
+115: select, from
+116: select, from, where, notInArray
+120: select, from, where, between
+124: select, from, where, notBetween
+128: select, from, where, like
+132: select, from, where, notLike
+136: select, from, where, ilike
+140: select, from, where, notIlike
+144: select, from, where, not, eq
+148: select, from, where, and, gt, lt
+152: select, from, where, or, gt, lt
+156: select, from
+157: where, arrayContains
+159: select, from
+160: where, arrayContains
+162: select, from, where, eq
+167: select, from
+168: where, arrayContained
+172: select, from
+173: where, arrayOverlaps

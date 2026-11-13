@@ -1,7 +1,9 @@
 # Written by hand: each line that gets marks, and the marked text in order.
 # `desc` on line 50 and `sql` on line 67 are names Drizzle passes to the
 # callback, so the parameter and its use both get marks. Table and relation
-# names under `r`, `with` and `extras` are yours.
+# names under `r`, `with` and `extras` are yours, and so are column names in
+# `columns`, `where` and `orderBy`. In a 1.0 `orderBy`, 'asc' and 'desc' are
+# strings Drizzle fixes. Keys passed to `execute()` name your placeholders.
 5: drizzle, drizzle-orm/node-postgres
 6: drizzle-orm/pg-core
 7: defineRelations, drizzle-orm
@@ -98,3 +100,147 @@
 205: one
 206: from
 207: to
+215: query, findMany
+219: query, findFirst
+223: query, findMany
+224: with
+231: query, findFirst
+232: with
+239: query, findMany
+240: with
+242: with
+251: query, findMany
+252: columns
+256: with
+263: query, findMany
+264: columns
+271: query, findMany
+272: columns
+280: query, findMany
+281: columns
+282: with
+289: query, findMany
+290: columns
+294: with
+296: columns
+305: query, findMany
+306: where
+313: query, findMany
+314: where
+317: with
+319: where
+320: lt
+328: query, findMany
+329: where
+336: query, findMany
+337: where
+345: query, findMany
+346: where
+347: OR
+350: gt
+355: like
+364: query, findMany
+365: where
+366: NOT
+368: gt
+372: like
+383: pgTable
+384: integer, primaryKey
+385: text
+386: text, notNull
+387: integer
+388: timestamp, defaultNow
+389: timestamp
+390: timestamp
+391: timestamp
+392: jsonb
+393: text, array
+398: query, findMany
+399: where
+400: AND
+402: OR
+403: RAW, sql
+404: ilike
+408: OR
+409: RAW, sql
+410: RAW, sql
+413: RAW, sql
+420: query, findMany
+421: where
+423: gt
+427: like
+435: query, findMany
+436: with
+439: where
+446: query, findMany
+447: limit
+452: query, findMany
+453: with
+455: limit
+462: query, findMany
+463: limit
+464: offset
+465: with
+467: offset
+468: limit
+475: query, findMany
+476: with
+479: limit
+480: offset
+485: query, findMany
+486: orderBy
+487: asc
+493: query, findMany
+494: orderBy, asc
+495: with
+497: orderBy, desc
+504: query, findMany
+505: orderBy, sql
+506: with
+508: orderBy, desc, desc
+515: query, findMany
+516: extras
+517: sql
+523: query, findMany
+524: extras
+525: sql, sql
+531: query, findMany
+532: extras
+533: sql, sql
+535: with
+542: query, findMany
+543: extras
+544: sql, sql
+546: with
+548: extras
+549: sql, sql
+557: query, findMany
+558: with
+561: extras
+562: $count, eq
+568: query, findMany
+569: where, eq, sql, placeholder
+570: with
+572: where
+575: prepare
+577: execute
+581: query, findMany
+582: with
+584: limit, sql, placeholder
+587: prepare
+589: execute
+593: query, findMany
+594: offset, sql, placeholder
+595: with
+598: prepare
+600: execute
+604: query, findMany
+605: limit, sql, placeholder
+606: offset, sql, placeholder
+607: where
+608: OR, eq, sql, placeholder
+610: with
+612: where, eq, sql, placeholder
+613: limit, sql, placeholder
+616: prepare
+618: execute

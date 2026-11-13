@@ -1,0 +1,59 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# `SQL` in `SQL[]` is never imported in this page, so it can't be known to be Drizzle's.
+4: sql, drizzle-orm
+5: PgDialect, drizzle-orm/pg-core
+7: pgTable, primaryKey, serial, text, drizzle-orm/pg-core
+8: count, or, drizzle-orm
+9: drizzle, drizzle-orm/node-postgres
+10: drizzle
+14: execute, sql
+18: pgTable
+19: serial, primaryKey
+20: text, notNull
+24: sql, mapWith
+28: sql, mapWith
+29: mapFromDriverValue
+37: sql, mapWith
+41: sql, as
+45: sql, raw
+47: sql
+51: sql
+53: sql, sql, raw
+59: sql
+63: sql
+68: sql
+71: sql
+74: sql, fromList
+80: sql
+84: sql
+89: sql
+92: sql
+95: sql, join, sql, raw
+99: sql
+103: append, sql
+108: append, sql
+111: append, sql
+116: sql, empty
+120: append, sql
+124: append, sql
+129: append, sql
+132: append, sql
+137: PgDialect
+138: sqlToQuery, sql
+142: select
+144: sql
+145: sql, as
+146: sql, mapWith
+147: from
+153: select
+154: from
+155: where, sql
+161: select
+162: from
+163: where, sql
+167: select, from, orderBy, sql
+171: select
+173: sql, mapWith
+174: from
+175: groupBy, sql
+176: having, sql

@@ -1,0 +1,138 @@
+// From "column-types" in Drizzle's docs for SQLite, by the Drizzle team, CC BY 4.0.
+// See test/corpus/docs/README.md for what was changed.
+
+import { integer, sqliteTable } from "drizzle-orm/sqlite-core";
+import { real } from 'drizzle-orm/sqlite-core';
+import { text } from 'drizzle-orm/sqlite-core';
+import { blob } from 'drizzle-orm/sqlite-core';
+import { numeric } from 'drizzle-orm/sqlite-core';
+import { sql } from "drizzle-orm";
+import { createId } from '@paralleldrive/cuid2';
+import { primaryKey } from 'drizzle-orm/sqlite-core';
+import { drizzle } from 'drizzle-orm/libsql';
+const db = drizzle(process.env.DB_FILE_NAME!);
+
+{
+  const table = sqliteTable('table', {
+  	id: integer()
+  });
+
+  // you can customize integer mode to be number, boolean, timestamp, timestamp_ms
+  integer({ mode: 'number' })
+  integer({ mode: 'boolean' })
+  integer({ mode: 'timestamp_ms' })
+  integer({ mode: 'timestamp' }) // Date
+}
+
+{
+  // to make integer primary key auto increment
+  integer({ mode: 'number' }).primaryKey({ autoIncrement: true })
+}
+
+{
+  const table = sqliteTable('table', {
+  	real: real()
+  });
+}
+
+{
+  const table = sqliteTable('table', {
+  	text: text()
+  });
+
+  // will be inferred as text: "value1" | "value2" | null
+  text({ enum: ["value1", "value2"] })
+  text({ mode: 'json' })
+  text({ mode: 'json' }).$type<{ foo: string }>()
+}
+
+{
+  const table = sqliteTable('table', {
+  	blob: blob()
+  });
+
+  blob()
+  blob({ mode: 'buffer' })
+  blob({ mode: 'bigint' })
+
+  blob({ mode: 'json' })
+  blob({ mode: 'json' }).$type<{ foo: string }>()
+}
+
+{
+  // will be inferred as { foo: string }
+  json: blob({ mode: 'json' }).$type<{ foo: string }>();
+
+  // will be inferred as string[]
+  json: blob({ mode: 'json' }).$type<string[]>();
+
+  // won't compile
+  json: blob({ mode: 'json' }).$type<string[]>().default({});
+}
+
+{
+  const table = sqliteTable('table', {
+  	id: integer({ mode: 'boolean' })
+  });
+}
+
+{
+  const table = sqliteTable('table', {
+  	id: blob({ mode: 'bigint' })
+  });
+}
+
+{
+  const table = sqliteTable('table', {
+    numeric: numeric(),
+    numericNum: numeric({ mode: 'number' }),
+    numericBig: numeric({ mode: 'bigint' }),
+    numericString: numeric({ mode: 'string' }),
+  });
+}
+
+{
+  type UserId = number & { __brand: 'user_id' };
+  type Data = {
+  	foo: string;
+  	bar: number;
+  };
+
+  const users = sqliteTable('users', {
+    id: integer().$type<UserId>().primaryKey(),
+    jsonField: blob().$type<Data>(),
+  });
+}
+
+{
+  const table = sqliteTable('table', { 
+  	numInt: integer().notNull() 
+  });
+}
+
+{
+  const table = sqliteTable('table', {
+  	int1: integer().default(42),
+  	int2: integer().default(sql`(abs(42))`)
+  });
+}
+
+{
+  const table = sqliteTable("table", {
+    time: text().default(sql`(CURRENT_TIME)`),
+    date: text().default(sql`(CURRENT_DATE)`),
+    timestamp: text().default(sql`(CURRENT_TIMESTAMP)`),
+  });
+}
+
+{
+  const table = sqliteTable('table', {
+  	id: text().$defaultFn(() => createId()),
+  });
+}
+
+{
+  const table = sqliteTable('table', {
+      alwaysNull: text().$type<string | null>().$onUpdate(() => null),
+  });
+}

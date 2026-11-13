@@ -1,0 +1,53 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+4: sql, drizzle-orm
+5: integer, sqliteTable, drizzle-orm/sqlite-core
+6: int, text, unique, drizzle-orm/sqlite-core
+7: check, drizzle-orm/sqlite-core
+8: primaryKey, drizzle-orm/sqlite-core
+9: foreignKey, drizzle-orm/sqlite-core
+10: index, uniqueIndex, drizzle-orm/sqlite-core
+11: drizzle, drizzle-orm/libsql
+12: drizzle
+15: sqliteTable
+16: integer, default
+17: integer, default, sql
+22: sqliteTable
+23: integer, notNull
+28: sqliteTable
+29: int, unique
+32: sqliteTable
+33: int, unique
+36: sqliteTable
+37: int
+38: text
+40: unique, on
+41: unique, on
+46: sqliteTable
+49: int, primaryKey
+50: text, notNull
+51: int
+54: check, sql
+60: sqliteTable
+61: integer, primaryKey, autoIncrement
+64: sqliteTable
+65: integer, primaryKey
+70: sqliteTable
+71: integer, primaryKey, autoIncrement
+72: text
+75: sqliteTable
+76: integer, primaryKey, autoIncrement
+77: text
+80: sqliteTable
+81: integer
+82: integer
+84: primaryKey, columns
+86: primaryKey, name, columns
+91: sqliteTable
+92: integer, primaryKey, autoIncrement
+93: text
+94: text
+96: index, on
+97: uniqueIndex, on
+103: index
+104: on
+105: where, sql

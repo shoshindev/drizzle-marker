@@ -1,0 +1,35 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+5: alias, drizzle-orm/pg-core
+6: and, avg, eq, lt, sql, drizzle-orm
+7: drizzle, drizzle-orm/node-postgres
+8: drizzle
+11: update, set, where, eq
+15: update
+16: set
+17: where, eq
+21: update
+22: set
+23: where, eq
+27: update
+28: set, sql
+29: where, eq
+33: update, set, where, eq, returning
+38: $with, as
+39: select, sql, as, from
+42: with
+43: update
+44: set
+47: where, lt, sql
+48: returning
+55: update
+56: set
+57: from
+58: where, and, eq, eq
+62: alias
+64: update
+65: set
+66: from
+71: update
+72: set
+73: from
+74: returning

@@ -1,0 +1,33 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# The strings in `$type<"admin" | "customer">` are a type you wrote.
+4: pgTable, pgView, serial, text, timestamp, drizzle-orm/pg-core
+5: eq, drizzle-orm
+6: QueryBuilder, drizzle-orm/pg-core
+7: pgMaterializedView, drizzle-orm/pg-core
+8: drizzle, drizzle-orm/node-postgres
+9: drizzle
+12: pgTable
+13: serial
+14: text
+15: text
+16: text
+17: text, $type
+18: timestamp
+19: timestamp
+22: pgView, as, select, from
+23: pgView, as, select, from, where, eq
+27: QueryBuilder
+29: pgTable
+30: serial
+31: text
+32: text
+33: text
+34: text, $type
+35: timestamp
+36: timestamp
+39: pgView, as, select, from
+40: pgView, as, select, from, where, eq
+44: pgMaterializedView, as, select, from, where, eq
+48: refreshMaterializedView
+50: refreshMaterializedView, concurrently
+52: refreshMaterializedView, withNoData

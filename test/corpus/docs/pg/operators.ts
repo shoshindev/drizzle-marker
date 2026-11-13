@@ -1,0 +1,174 @@
+// From "operators" in Drizzle's docs for PostgreSQL, by the Drizzle team, CC BY 4.0.
+// See test/corpus/docs/README.md for what was changed.
+
+import { eq } from "drizzle-orm";
+import { ne } from "drizzle-orm";
+import { gt } from "drizzle-orm";
+import { gte } from "drizzle-orm";
+import { lt } from "drizzle-orm";
+import { lte } from "drizzle-orm";
+import { exists } from "drizzle-orm";
+import { notExists } from "drizzle-orm";
+import { isNull } from "drizzle-orm";
+import { isNotNull } from "drizzle-orm";
+import { inArray } from "drizzle-orm";
+import { notInArray } from "drizzle-orm";
+import { between } from "drizzle-orm";
+import { notBetween } from "drizzle-orm";
+import { like } from "drizzle-orm";
+import { notLike } from "drizzle-orm";
+import { ilike } from "drizzle-orm";
+import { notIlike } from "drizzle-orm";
+import { not } from 'drizzle-orm';
+import { and } from 'drizzle-orm';
+import { or } from 'drizzle-orm';
+import { arrayContains } from "drizzle-orm";
+import { arrayContained } from "drizzle-orm";
+import { arrayOverlaps } from "drizzle-orm";
+import { drizzle } from 'drizzle-orm/node-postgres';
+const db = drizzle(process.env.DATABASE_URL!);
+
+{
+  await db.select().from(users).where(eq(users.id, 42));
+}
+
+{
+  db.select().from(table).where(eq(table.column, 5));
+}
+
+{
+  db.select().from(table).where(eq(table.column1, table.column2));
+}
+
+{
+  db.select().from(table).where(ne(table.column, 5));
+}
+
+{
+  db.select().from(table).where(ne(table.column1, table.column2));
+}
+
+{
+  db.select().from(table).where(gt(table.column, 5));
+}
+
+{
+  db.select().from(table).where(gt(table.column1, table.column2));
+}
+
+{
+  db.select().from(table).where(gte(table.column, 5));
+}
+
+{
+  db.select().from(table).where(gte(table.column1, table.column2));
+}
+
+{
+  db.select().from(table).where(lt(table.column, 5));
+}
+
+{
+  db.select().from(table).where(lt(table.column1, table.column2));
+}
+
+{
+  db.select().from(table).where(lte(table.column, 5));
+}
+
+{
+  db.select().from(table).where(lte(table.column1, table.column2));
+}
+
+{
+  const query = db.select().from(table2)
+  db.select().from(table).where(exists(query));
+}
+
+{
+  const query = db.select().from(table2)
+  db.select().from(table).where(notExists(query));
+}
+
+{
+  db.select().from(table).where(isNull(table.column));
+}
+
+{
+  db.select().from(table).where(isNotNull(table.column));
+}
+
+{
+  db.select().from(table).where(inArray(table.column, [1, 2, 3, 4]));
+}
+
+{
+  const query = db.select({ data: table2.column }).from(table2);
+  db.select().from(table).where(inArray(table.column, query));
+}
+
+{
+  db.select().from(table).where(notInArray(table.column, [1, 2, 3, 4]));
+}
+
+{
+  const query = db.select({ data: table2.column }).from(table2);
+  db.select().from(table).where(notInArray(table.column, query));
+}
+
+{
+  db.select().from(table).where(between(table.column, 2, 7));
+}
+
+{
+  db.select().from(table).where(notBetween(table.column, 2, 7));
+}
+
+{
+  db.select().from(table).where(like(table.column, "%llo wor%"));
+}
+
+{
+  db.select().from(table).where(notLike(table.column, "%llo wor%"));
+}
+
+{
+  db.select().from(table).where(ilike(table.column, "%llo wor%"));
+}
+
+{
+  db.select().from(table).where(notIlike(table.column, "%llo wor%"));
+}
+
+{
+  db.select().from(table).where(not(eq(table.column, 5)));
+}
+
+{
+  db.select().from(table).where(and(gt(table.column, 5), lt(table.column, 7)));
+}
+
+{
+  db.select().from(table).where(or(gt(table.column, 5), lt(table.column, 7)));
+}
+
+{
+  const contains = await db.select({ id: posts.id }).from(posts)
+    .where(arrayContains(posts.tags, ['Typescript', 'ORM']));
+
+  const withSubQuery = await db.select({ id: posts.id }).from(posts)
+    .where(arrayContains(
+      posts.tags,
+      db.select({ tags: posts.tags }).from(posts).where(eq(posts.id, 1)),
+    ));
+}
+
+{
+  const contained = await db.select({ id: posts.id }).from(posts)
+    .where(arrayContained(posts.tags, ['Typescript', 'ORM']));
+}
+
+{
+  const overlaps = await db.select({ id: posts.id }).from(posts)
+    .where(arrayOverlaps(posts.tags, ['Typescript', 'ORM']));
+}

@@ -10,15 +10,13 @@ A string's mark is its text without the quotes. Lines with no marks aren't liste
 
 The lists were written by reading each file and applying the rule in the README to every name and string, without looking at what the marker does. Comments at the top of a list explain the less obvious calls. When the marker and a list disagree, decide by the rule which one is wrong.
 
-More pages of Drizzle's docs, with the marks they got when they were last checked, are in `test/snapshots`.
-
 ## horizons
 
 Four files from a SvelteKit app that uses Drizzle with PostgreSQL. `+page.server.js` imports `db` and the tables from `#lib/server/db/...`, through the `imports` in `package.json`, so it tests following an import to another file. `package.json` keeps only what the marker reads.
 
 ## docs
 
-Code from Drizzle's documentation, [drizzle-team/drizzle-orm-docs](https://github.com/drizzle-team/drizzle-orm-docs) at commit `55f7f9e`, by the Drizzle team, under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Each file holds the TypeScript examples of one page, for PostgreSQL (`pg`), MySQL and SQLite. `pg/rqb.ts` holds the first part of its page.
+Code from Drizzle's documentation, [drizzle-team/drizzle-orm-docs](https://github.com/drizzle-team/drizzle-orm-docs) at commit `55f7f9e`, by the Drizzle team, under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Each file holds the TypeScript examples of one page, for PostgreSQL (`pg`, 15 pages), MySQL and SQLite (6 pages each).
 
 The examples were changed to make one page into one file that parses:
 

@@ -1,0 +1,76 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# Drizzle fixes the strings of `dialect` and `casing`. Paths, table names,
+# filters and credentials, including `ssl` on line 89, are yours.
+4: defineConfig, drizzle-kit
+5: drizzle-orm/mysql-core
+6: int, mysqlTable, primaryKey, varchar, drizzle-orm/mysql-core
+7: drizzle, drizzle-orm/mysql2
+8: drizzle
+11: defineConfig
+12: dialect, mysql
+13: schema
+14: out
+19: defineConfig
+20: dialect, mysql
+21: schema
+22: out
+27: defineConfig
+28: out
+29: dialect, mysql
+30: schema
+32: dbCredentials
+33: url
+36: tablesFilter
+38: introspect
+39: casing, camel
+42: migrations
+43: table
+46: breakpoints
+47: verbose
+52: defineConfig
+53: dialect, mysql
+54: schema
+55: out
+60: defineConfig
+61: dialect, mysql
+66: defineConfig
+67: out
+72: defineConfig
+73: dialect, mysql
+74: dbCredentials
+75: url
+81: defineConfig
+82: dialect, mysql
+83: dbCredentials
+84: host
+85: port
+86: user
+87: password
+88: database
+89: ssl
+95: defineConfig
+96: dialect, mysql
+97: schema
+98: migrations
+99: table
+105: mysqlTable
+106: int, primaryKey, autoincrement
+107: varchar, length
+108: varchar, length
+109: varchar, length
+110: varchar, length
+115: mysqlTable
+116: int, primaryKey, autoincrement
+117: varchar, length
+118: varchar, length
+119: varchar, length
+120: varchar, length
+125: defineConfig
+126: dialect, mysql
+127: tablesFilter
+132: defineConfig
+133: dialect, mysql
+134: verbose
+139: defineConfig
+140: dialect, mysql
+141: breakpoints

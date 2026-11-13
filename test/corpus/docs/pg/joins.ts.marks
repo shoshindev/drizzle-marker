@@ -1,0 +1,73 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# `AnyPgColumn` on line 104 is never imported here, so it can't be known to be Drizzle's.
+5: alias, drizzle-orm/pg-core
+6: pgTable, text, integer, drizzle-orm/pg-core
+7: drizzle, drizzle-orm/node-postgres
+8: primaryKey, serial, drizzle-orm/pg-core
+9: eq, gte, sql, drizzle-orm
+10: drizzle
+13: pgTable
+14: serial, primaryKey
+15: text, notNull
+16: integer
+19: pgTable
+20: serial, primaryKey
+21: text, notNull
+22: integer
+23: notNull
+24: references
+29: select, from, leftJoin, eq
+33: select, from, where, gte, as
+34: select, from, leftJoinLateral, sql
+38: select, from, rightJoin, eq
+42: select, from, innerJoin, eq
+46: select, from, where, gte, as
+47: select, from, innerJoinLateral, sql
+51: select, from, fullJoin, eq
+55: select, from, crossJoin
+59: select, from, where, gte, as
+60: select, from, crossJoinLateral
+64: select
+67: from, leftJoin, eq
+71: select
+74: sql
+75: sql
+77: from, leftJoin, eq
+81: select
+87: sql
+89: from, fullJoin, eq
+93: alias
+95: select
+96: from
+97: leftJoin, eq
+101: pgTable
+102: integer, primaryKey
+103: text, notNull
+104: integer, notNull, references
+109: pgTable
+110: integer, primaryKey
+111: text
+114: pgTable
+115: integer, primaryKey
+116: text
+117: integer, references
+120: drizzle
+122: select, from, leftJoin, eq
+126: pgTable
+127: integer, primaryKey
+128: text
+131: pgTable
+132: integer, primaryKey
+133: text
+136: pgTable
+137: integer
+138: notNull
+139: references
+140: integer
+141: notNull
+142: references
+146: select
+147: from
+148: leftJoin, eq
+149: leftJoin, eq
+150: where, eq

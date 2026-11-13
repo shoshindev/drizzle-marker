@@ -1,0 +1,74 @@
+{
+  "name": "drizzle-marker",
+  "displayName": "Drizzle Marker",
+  "description": "Highlighter-style marks behind Drizzle ORM's names, so you can tell them apart from your own code.",
+  "version": "0.0.1",
+  "publisher": "shoshindev",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shoshindev/drizzle-marker.git"
+  },
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "drizzle",
+    "drizzle-orm",
+    "orm",
+    "highlight",
+    "highlighter",
+    "syntax"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onLanguage:typescript",
+    "onLanguage:javascript",
+    "onLanguage:typescriptreact",
+    "onLanguage:javascriptreact"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "drizzleMarker.toggle",
+        "title": "Drizzle Marker: Toggle Marks"
+      }
+    ],
+    "colors": [
+      {
+        "id": "drizzleMarker.background",
+        "description": "Background color of the marks. Keep it translucent so the text stays readable.",
+        "defaults": {
+          "dark": "#14B8A642",
+          "light": "#14B8A62E",
+          "highContrast": "#14B8A642",
+          "highContrastLight": "#14B8A62E"
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "check": "tsc --noEmit",
+    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test test/findMarks.test.ts",
+    "vsix": "vsce package --no-dependencies",
+    "vscode:prepublish": "node notices.mjs && node esbuild.mjs --production"
+  },
+  "devDependencies": {
+    "@sveltejs/acorn-typescript": "1.0.13",
+    "@types/node": "24.19.2",
+    "@types/vscode": "1.100.0",
+    "@vscode/vsce": "4.1.0",
+    "acorn": "8.19.0",
+    "esbuild": "0.28.2",
+    "typescript": "7.0.2"
+  }
+}

@@ -1,0 +1,9 @@
+# Leave out everything, then add back what the extension needs. A new file or
+# folder in the repo stays out of the package unless it's listed here.
+**
+!dist/extension.js
+!package.json
+!README.md
+!CHANGELOG.md
+!LICENSE
+!THIRD-PARTY-NOTICES.md

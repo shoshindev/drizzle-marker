@@ -8,17 +8,21 @@ The rule: a name or string gets a mark if Drizzle fixes its spelling, so renamin
 
 It only adds a mark, so your theme's text colors stay the same and it works with any color theme.
 
+![A Drizzle schema and query on the Dark Modern theme, with teal marks behind Drizzle's names](images/screenshot-dark.png)
+
+![The same file on the Light Modern theme](images/screenshot-light.png)
+
 ## Install
 
-You need VS Code 1.100 or newer. Drizzle Marker isn't on the Marketplace yet, so build and install it from this repository:
+You need VS Code 1.100 or newer. Search for **Drizzle Marker** in the Extensions view and click **Install**, or run:
 
 ```bash
-npm install
-npm run vsix
-code --install-extension drizzle-marker-0.0.1.vsix
+code --install-extension shoshindev.drizzle-marker
 ```
 
-Then run **Developer: Reload Window** from the Command Palette.
+VSCodium, Cursor and other editors built on VS Code install it the same way, from [Open VSX](https://open-vsx.org/extension/shoshindev/drizzle-marker).
+
+To install a build of this repository instead, see [Develop](#develop).
 
 ## Use
 
@@ -78,6 +82,33 @@ Any tint behind text lowers its contrast. On Dark Modern, Dark 2026 and both hig
 
 Press F5 in VS Code to open a second window with the extension loaded and `samples/` open.
 
+To install a build of this repository, run:
+
+```bash
+npm install
+npm run vsix
+code --install-extension drizzle-marker-0.0.1.vsix
+```
+
+Then run **Developer: Reload Window** from the Command Palette. `npm run vsix` also rewrites `THIRD-PARTY-NOTICES.md`, so commit that file if it changes.
+
+`images/screenshot-dark.png` and `images/screenshot-light.png` are the screenshots above, taken in VS Code on the Dark Modern and Light Modern themes. Take them again when a change to the marks would show in them. `.vscodeignore` keeps them out of the `.vsix`, and the Marketplace loads them from GitHub instead, so push them before publishing.
+
 GitHub runs `npm run check`, `npm test` and `npm run build` on every push to `main` and on every pull request, in `.github/workflows/ci.yml`.
 
 The marker reads both versions of Drizzle, installed as `drizzle-orm` and `drizzle-orm-1`, and the other packages, and writes what their values hold to `src/generatedShapes.json`. `test/shapes.test.ts` fails when an update to any of them adds or renames an export, until you run `npm run shapes`. `test/corpus` holds real Drizzle code, from Drizzle's documentation and from a SvelteKit app, with a hand-written list of the marks each file should get. See its README.
+
+### Release
+
+1. Raise `version` in `package.json` and add a section for it at the top of `CHANGELOG.md`. The Marketplace shows that file in the extension's Changelog tab.
+2. Commit and push to `main`.
+3. Push a tag named after the version:
+
+   ```bash
+   git tag v0.0.1
+   git push origin v0.0.1
+   ```
+
+The tag starts the Publish workflow in `.github/workflows/publish.yml`. It stops if the tag doesn't match `version`, runs the typecheck and tests, packages the extension once, and publishes that file to the VS Code Marketplace and to [Open VSX](https://open-vsx.org/extension/shoshindev/drizzle-marker), the store that VSCodium, Cursor and other VS Code forks install from. Both stores accept the upload because their trusted publisher settings name this repository and workflow, so no access token is stored anywhere.
+
+To try the workflow without publishing, run it from the repository's Actions tab. It then packages the extension and stops. If a release reached one store but not the other, re-run the failed run from its page, or run the workflow from the Actions tab on `main` with **publish** ticked. Either way, a store that already has the version is skipped.

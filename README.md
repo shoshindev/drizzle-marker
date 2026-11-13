@@ -1,3 +1,5 @@
+<img src="images/icon.png" width="96" height="96" alt="">
+
 # Drizzle Marker
 
 Marks the names that come from [Drizzle ORM](https://orm.drizzle.team) in VS Code, so you can tell Drizzle's API apart from your own code at a glance, with a translucent teal highlight.

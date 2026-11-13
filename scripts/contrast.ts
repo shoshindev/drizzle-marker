@@ -1,8 +1,6 @@
 // Checks that text on top of a mark stays readable in VS Code's own themes:
 // every text color a theme uses that has a contrast ratio of at least 4.5:1 on
 // the editor's background, the WCAG AA minimum, must keep it on top of a mark.
-// Where a theme draws a line under the marks, the line needs 3:1 against the
-// background, the minimum for a part of the interface.
 //   npm run contrast
 // It reads the themes from your VS Code install, and test/contrast.test.ts runs
 // the same check.
@@ -25,7 +23,6 @@ export const THEMES: [string, string, 'dark' | 'light' | 'highContrast' | 'highC
 ];
 
 const MINIMUM = 4.5;
-const LINE_MINIMUM = 3;
 
 type Rgba = [number, number, number, number];
 
@@ -108,7 +105,6 @@ export function checkThemes(): Report[] {
   const packageJson = JSON.parse(readFileSync(fileURLToPath(new URL('../package.json', import.meta.url)), 'utf8'));
   const colorDefaults = (id: string) => packageJson.contributes.colors.find((item: any) => item.id === id).defaults;
   const defaults = colorDefaults('drizzleMarker.background');
-  const lines = colorDefaults('drizzleMarker.underline');
   const reports: Report[] = [];
   for (const [name, file, kind] of THEMES) {
     const path = join(THEMES_FOLDER, file);
@@ -134,11 +130,6 @@ export function checkThemes(): Report[] {
       if (ratio < MINIMUM) report.failures.push(`${hex} ${ratio.toFixed(2)}`);
       report.stacked = Math.min(report.stacked, contrast(over(text, both), both));
       report.violet = Math.min(report.violet, contrast(over(text, violet), violet));
-    }
-    const line = parse(lines[kind]);
-    if (line[3] > 0) {
-      const ratio = contrast(over(line, background), background);
-      if (ratio < LINE_MINIMUM) report.failures.push(`underline ${lines[kind]} ${ratio.toFixed(2)}`);
     }
     reports.push(report);
   }

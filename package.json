@@ -45,22 +45,12 @@
     "colors": [
       {
         "id": "drizzleMarker.background",
-        "description": "Background color of the marks. Keep it faint so the text stays readable.",
+        "description": "Background color of the marks. Keep it translucent so the text stays readable.",
         "defaults": {
           "dark": "#14B8A62E",
-          "light": "#FFFF001F",
+          "light": "#14B8A62E",
           "highContrast": "#14B8A642",
-          "highContrastLight": "#FFFF001F"
-        }
-      },
-      {
-        "id": "drizzleMarker.underline",
-        "description": "Color of the line under the marks. Light themes use it, since a background dark enough to see on white would make some of their colors too faint to read.",
-        "defaults": {
-          "dark": "#00000000",
-          "light": "#0F766E",
-          "highContrast": "#00000000",
-          "highContrastLight": "#0F766E"
+          "highContrastLight": "#14B8A62E"
         }
       }
     ]

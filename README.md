@@ -1,6 +1,6 @@
 # Drizzle Marker
 
-Marks the names that come from [Drizzle ORM](https://orm.drizzle.team) in VS Code, so you can tell Drizzle's API apart from your own code at a glance: a teal highlight on dark themes, and a faint highlight with a teal underline on light ones.
+Marks the names that come from [Drizzle ORM](https://orm.drizzle.team) in VS Code, so you can tell Drizzle's API apart from your own code at a glance, with a translucent teal highlight.
 
 The rule: a name or string gets a mark if Drizzle fixes its spelling, so renaming it would break your code, like `pgTable`, `notNull`, `where`, `onDelete` and `'cascade'`. A name you choose stays unmarked, even when it holds something of Drizzle's, like `db`, `users`, a column key like `title`, or a table name like `'period_start'`. Here Drizzle means the packages the Drizzle team publishes: `drizzle-orm`, `drizzle-kit`, `drizzle-zod`, `drizzle-valibot`, `drizzle-typebox`, `drizzle-arktype` and `drizzle-seed`.
 
@@ -49,18 +49,17 @@ Names from both the current release, 0.45, and the 1.0 release candidate get mar
 
 ## Color
 
-On dark themes the mark is a teal background, `#14B8A6` at 18% opacity. On light themes it's a faint yellow background, `#FFFF00` at 12%, with a teal line under the text, `#0F766E`. Text on a mark keeps a contrast of at least 4.5:1, the WCAG AA minimum, in VS Code's light, dark and high-contrast themes. On a white background only a pale yellow keeps it: types in Light Modern start at 4.59:1, and any darker or bluer tint would push them below 4.5:1. The line is what makes the mark easy to see there.
-
-To change either, add this to your `settings.json`:
+The marks use teal, `#14B8A6`, at 18% opacity, and 26% on the dark high-contrast theme. To use another color, add this to your `settings.json`:
 
 ```json
 "workbench.colorCustomizations": {
-  "drizzleMarker.background": "#0066FF26",
-  "drizzleMarker.underline": "#00000000"
+  "drizzleMarker.background": "#0066FF26"
 }
 ```
 
-The last two digits of a color set its opacity, and `00` hides it.
+The last two digits set the opacity. Keep it low, or the mark will hide the text.
+
+Any tint behind text lowers its contrast. On Dark Modern, Dark 2026 and both high-contrast themes, text on a mark keeps at least 4.5:1, the WCAG AA minimum. On Light Modern and Light 2026 it doesn't: their color for types, like `SQL` and `PgTransaction`, starts at 4.59:1 on white and drops to 3.89:1 on a mark, and constants and enum members drop to 3.90:1. `npm run contrast` prints these numbers for every built-in theme.
 
 ## Develop
 

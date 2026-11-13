@@ -12,13 +12,10 @@ import { MarkMemory } from './markMemory.ts';
 // The kinds of file that can hold Drizzle code.
 const LANGUAGES = ['typescript', 'javascript', 'typescriptreact', 'javascriptreact'];
 
-// Colors people can change in their settings. Their defaults are in package.json.
-// Dark themes get a teal background, #14B8A6 at 18% opacity. Light themes get a
-// teal line under the text, #0F766E, over a faint yellow: a darker tint behind
-// the text on a white background would make some theme colors, like the color of
-// types in Light Modern, too faint to read.
+// A color people can change in their settings. Its defaults are in package.json:
+// teal, #14B8A6, plus two digits for the opacity. 2E is 18% and 42 is 26%, which
+// the dark high-contrast theme gets, since its black background needs more.
 const MARKER_COLOR = new vscode.ThemeColor('drizzleMarker.background');
-const UNDERLINE_COLOR = new vscode.ThemeColor('drizzleMarker.underline');
 
 // How long to wait after a keystroke before repainting.
 const TYPING_PAUSE_MS = 150;
@@ -37,15 +34,11 @@ export function activate(context: vscode.ExtensionContext) {
   // Where the extension notes how long its work takes, in the Output panel.
   const log = vscode.window.createOutputChannel('Drizzle Marker', { log: true });
 
-  // A decoration type is a reusable style for overlays on the text. It adds a
-  // background and a line under the text, so the theme's text colors stay as
-  // they are.
+  // A decoration type is a reusable style for overlays on the text. It sets a
+  // background only, so the theme's text colors stay as they are.
   const marker = vscode.window.createTextEditorDecorationType({
     borderRadius: '3px',
     backgroundColor: MARKER_COLOR,
-    borderColor: UNDERLINE_COLOR,
-    borderStyle: 'none none solid none',
-    borderWidth: '0 0 2px 0',
     // Stops a mark from stretching when you type right at its edge.
     rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
   });

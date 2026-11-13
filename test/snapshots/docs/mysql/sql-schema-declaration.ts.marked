@@ -1,0 +1,208 @@
+// From "sql-schema-declaration" in Drizzle's docs for MySQL, by the Drizzle team, CC BY 4.0.
+// See test/corpus/docs/README.md for what was changed.
+
+import { ⟦int⟧, ⟦mysqlTable⟧, ⟦varchar⟧ } from "⟦drizzle-orm/mysql-core⟧";
+import * as t from "⟦drizzle-orm/mysql-core⟧";
+import { ⟦defineConfig⟧ } from "⟦drizzle-kit⟧";
+import { ⟦snakeCase⟧, ⟦camelCase⟧ } from '⟦drizzle-orm/mysql-core⟧';
+import { ⟦drizzle⟧ } from "⟦drizzle-orm/mysql2⟧";
+import { ⟦mysqlSchema⟧ } from "⟦drizzle-orm/mysql-core⟧"
+import { ⟦mysqlTable⟧ as table } from "⟦drizzle-orm/mysql-core⟧";
+import type { ⟦AnyMySqlColumn⟧ } from "⟦drizzle-orm/mysql-core⟧";
+import { ⟦index⟧, ⟦mysqlEnum⟧, ⟦primaryKey⟧, ⟦text⟧, ⟦timestamp⟧, ⟦unique⟧, ⟦uniqueIndex⟧ } from '⟦drizzle-orm/mysql-core⟧';
+import { ⟦sql⟧ } from '⟦drizzle-orm⟧';
+const db = ⟦drizzle⟧(process.env.DATABASE_URL!);
+
+{
+  const usersTable = ⟦mysqlTable⟧("users", {
+    id: ⟦int⟧().⟦primaryKey⟧().⟦autoincrement⟧(),
+    name: ⟦varchar⟧({ ⟦length⟧: 256 }).⟦notNull⟧(),
+    age: ⟦int⟧().⟦notNull⟧(),
+    email: ⟦varchar⟧({ ⟦length⟧: 256 }).⟦notNull⟧().⟦unique⟧(),
+  });
+}
+
+{
+  const usersTable = ⟦mysqlTable⟧("users", (t) => ({
+    id: t.⟦int⟧().⟦primaryKey⟧().⟦autoincrement⟧(),
+    name: t.⟦varchar⟧({ ⟦length⟧: 256 }).⟦notNull⟧(),
+    age: t.⟦int⟧().⟦notNull⟧(),
+    email: t.⟦varchar⟧({ ⟦length⟧: 256 }).⟦notNull⟧().⟦unique⟧(),
+  }));
+}
+
+{
+  const usersTable = t.⟦mysqlTable⟧("users", {
+    id: t.⟦int⟧().⟦primaryKey⟧().⟦autoincrement⟧(),
+    name: t.⟦varchar⟧({ ⟦length⟧: 256 }).⟦notNull⟧(),
+    age: t.⟦int⟧().⟦notNull⟧(),
+    email: t.⟦varchar⟧({ ⟦length⟧: 256 }).⟦notNull⟧().⟦unique⟧(),
+  });
+}
+
+{
+  ⟦defineConfig⟧({
+    ⟦dialect⟧: '⟦mysql⟧',
+    ⟦schema⟧: './src/db/schema.ts'
+  })
+}
+
+{
+  ⟦defineConfig⟧({
+    ⟦dialect⟧: '⟦mysql⟧',
+    ⟦schema⟧: './src/db/schema'
+  })
+}
+
+{
+  const users = ⟦mysqlTable⟧('users', {
+    id: ⟦int⟧()
+  });
+}
+
+{
+  // schema.ts
+
+
+  const users = ⟦mysqlTable⟧('users', {
+    id: ⟦int⟧(),
+    first_name: ⟦varchar⟧({ ⟦length⟧: 256 })
+  })
+}
+
+{
+  // query.ts
+  await db.⟦select⟧().⟦from⟧(users);
+}
+
+{
+  // schema.ts
+
+
+  const users = ⟦mysqlTable⟧('users', {
+    id: ⟦int⟧(),
+    firstName: ⟦varchar⟧('first_name', { ⟦length⟧: 256 })
+  })
+}
+
+{
+  // query.ts
+  await db.⟦select⟧().⟦from⟧(users);
+}
+
+{
+  // schema.ts
+
+
+  const users = ⟦snakeCase⟧.⟦table⟧('users', {
+    id: ⟦int⟧().⟦primaryKey⟧().⟦autoincrement⟧(),
+    fullName: ⟦text⟧(), // → full_name in DB
+    createdAt: ⟦timestamp⟧(), // → created_at in DB
+  });
+
+  // Available on all entity types:
+  ⟦snakeCase⟧.⟦table⟧ / ⟦snakeCase⟧.⟦view⟧ / ⟦snakeCase⟧.⟦schema⟧
+  ⟦camelCase⟧.⟦table⟧ / ⟦camelCase⟧.⟦view⟧ / ⟦camelCase⟧.⟦schema⟧
+}
+
+{
+  // db.ts
+
+
+  const db = ⟦drizzle⟧({ ⟦connection⟧: process.env.DATABASE_URL })
+}
+
+{
+  // query.ts
+  await db.⟦select⟧().⟦from⟧(users);
+}
+
+{
+  // columns.helpers.ts
+  const timestamps = {
+    updated_at: ⟦timestamp⟧(),
+    created_at: ⟦timestamp⟧().⟦defaultNow⟧().⟦notNull⟧(),
+    deleted_at: ⟦timestamp⟧(),
+  }
+}
+
+{
+  // users.sql.ts
+  const users = ⟦mysqlTable⟧('users', {
+    id: ⟦int⟧(),
+    ...timestamps
+  })
+}
+
+{
+  // posts.sql.ts
+  const posts = ⟦mysqlTable⟧('posts', {
+    id: ⟦int⟧(),
+    ...timestamps
+  })
+}
+
+{
+  const customSchema = ⟦mysqlSchema⟧('custom');
+}
+
+{
+  const customSchema = ⟦mysqlSchema⟧('custom');
+
+  const users = customSchema.⟦table⟧('users', {
+    id: ⟦int⟧()
+  })
+}
+
+{
+  const users = table(
+    "users",
+    {
+      id: t.⟦int⟧().⟦primaryKey⟧().⟦autoincrement⟧(),
+      firstName: t.⟦varchar⟧("first_name", { ⟦length⟧: 256 }),
+      lastName: t.⟦varchar⟧("last_name", { ⟦length⟧: 256 }),
+      email: t.⟦varchar⟧({ ⟦length⟧: 256 }).⟦notNull⟧(),
+      invitee: t.⟦int⟧().⟦references⟧((): ⟦AnyMySqlColumn⟧ => users.id),
+      role: t.⟦mysqlEnum⟧(["guest", "user", "admin"]).⟦default⟧("guest"),
+    },
+    (table) => [
+      t.⟦uniqueIndex⟧("email_idx").⟦on⟧(table.email)
+    ]
+  );
+
+  const posts = table(
+    "posts",
+    {
+      id: t.⟦int⟧().⟦primaryKey⟧().⟦autoincrement⟧(),
+      slug: t.⟦varchar⟧({ ⟦length⟧: 256 }).⟦$default⟧(() => generateUniqueString(16)),
+      title: t.⟦varchar⟧({ ⟦length⟧: 256 }),
+      ownerId: t.⟦int⟧("owner_id").⟦references⟧(() => users.id),
+    },
+    (table) => [
+      t.⟦uniqueIndex⟧("slug_idx").⟦on⟧(table.slug),
+      t.⟦index⟧("title_idx").⟦on⟧(table.title),
+    ]
+  );
+
+  const comments = table("comments", {
+    id: t.⟦int⟧().⟦primaryKey⟧().⟦autoincrement⟧(),
+    text: t.⟦varchar⟧({ ⟦length⟧: 256 }),
+    postId: t.⟦int⟧("post_id").⟦references⟧(() => posts.id),
+    ownerId: t.⟦int⟧("owner_id").⟦references⟧(() => users.id),
+  });
+}
+
+{
+  function generateUniqueString(length: number = 12): string {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let uniqueString = "";
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      uniqueString += characters[randomIndex];
+    }
+
+    return uniqueString;
+  }
+}

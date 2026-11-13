@@ -1,0 +1,10 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+1: pgTable, pgEnum, integer, text, date, boolean, timestamp, drizzle-orm/pg-core
+3: pgEnum
+12: pgTable
+13: integer, primaryKey, generatedAlwaysAsIdentity
+14: text, notNull
+15: notNull
+16: date
+17: boolean, notNull, default
+18: timestamp, withTimezone, notNull, defaultNow

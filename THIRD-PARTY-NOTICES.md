@@ -58,3 +58,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+## Drizzle's packages
+
+Drizzle Marker includes lists of the names Drizzle's packages export, and of the members, options and strings their values have, read from the packages' type files. None of their code is included. The packages ship no license file of their own, and their package.json files give these licenses:
+
+- drizzle-orm 0.45.4, Apache-2.0, by Drizzle Team
+- drizzle-orm 1.0.0-rc.5, Apache-2.0, by Drizzle Team
+- drizzle-kit 0.31.11, MIT, by Drizzle Team
+- drizzle-kit 1.0.0-rc.5, MIT, by Drizzle Team
+- drizzle-zod 0.8.3, Apache-2.0, by Drizzle Team
+- drizzle-valibot 0.4.2, Apache-2.0, by Drizzle Team
+- drizzle-typebox 0.3.3, Apache-2.0, by Drizzle Team
+- drizzle-arktype 0.1.3, Apache-2.0, by Drizzle Team
+- drizzle-seed 0.3.1, Apache-2.0, by Drizzle Team

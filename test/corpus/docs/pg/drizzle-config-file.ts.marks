@@ -1,0 +1,116 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# Drizzle fixes the strings of `dialect`, `driver`, `extensionsFilters` and
+# `casing`. Paths, table and schema names, filters and credentials are yours.
+4: defineConfig, drizzle-kit
+5: drizzle-orm/pg-core
+6: pgTable, serial, text, drizzle-orm/pg-core
+7: drizzle, drizzle-orm/node-postgres
+8: drizzle
+11: defineConfig
+12: dialect, postgresql
+13: schema
+14: out
+19: defineConfig
+20: dialect, postgresql
+21: schema
+22: out
+27: defineConfig
+28: out
+29: dialect, postgresql
+30: schema
+32: driver, pglite
+33: dbCredentials
+34: url
+37: extensionsFilters, postgis
+38: schemaFilter
+39: tablesFilter
+41: introspect
+42: casing, camel
+45: migrations
+46: table
+47: schema
+50: entities
+51: roles
+52: provider
+53: exclude
+54: include
+58: breakpoints
+59: verbose
+64: defineConfig
+65: dialect, postgresql
+66: schema
+67: out
+72: defineConfig
+73: dialect, postgresql
+78: defineConfig
+79: out
+84: defineConfig
+85: dialect, postgresql
+86: schema
+87: driver, aws-data-api
+88: dbCredentials
+89: database
+90: resourceArn
+91: secretArn
+97: defineConfig
+98: dialect, postgresql
+99: dbCredentials
+100: url
+107: defineConfig
+108: dialect, postgresql
+109: dbCredentials
+110: host
+111: port
+112: user
+113: password
+114: database
+115: ssl
+121: defineConfig
+122: dialect, postgresql
+123: driver, aws-data-api
+124: dbCredentials
+125: database
+126: resourceArn
+127: secretArn
+133: defineConfig
+134: dialect, postgresql
+135: driver, pglite
+136: dbCredentials
+137: url
+143: defineConfig
+144: dialect, postgresql
+145: schema
+146: migrations
+147: table
+148: schema
+154: pgTable
+155: serial
+156: text
+157: text
+158: text
+159: text
+164: pgTable
+165: serial
+166: text
+167: text
+168: text
+169: text
+174: defineConfig
+175: dialect, postgresql
+176: tablesFilter
+181: defineConfig
+182: dialect, postgresql
+183: schemaFilter
+188: defineConfig
+189: dialect, postgresql
+190: extensionsFilters, postgis
+195: defineConfig
+196: dialect, postgresql
+197: entities
+198: roles
+204: defineConfig
+205: dialect, postgresql
+206: verbose
+211: defineConfig
+212: dialect, postgresql
+213: breakpoints

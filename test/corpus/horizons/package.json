@@ -1,0 +1,13 @@
+{
+  "name": "horizons",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "drizzle-kit": "^0.31.10",
+    "drizzle-orm": "^0.45.2"
+  },
+  "imports": {
+    "#lib": "./src/lib/index.js",
+    "#lib/*": "./src/lib/*"
+  }
+}

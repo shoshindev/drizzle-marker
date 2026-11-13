@@ -1,0 +1,438 @@
+// From "select" in Drizzle's docs for PostgreSQL, by the Drizzle team, CC BY 4.0.
+// See test/corpus/docs/README.md for what was changed.
+
+import { ⟦pgTable⟧, ⟦serial⟧, ⟦text⟧, ⟦integer⟧ } from '⟦drizzle-orm/pg-core⟧';
+import { ⟦getColumns⟧, ⟦sql⟧ } from '⟦drizzle-orm⟧';
+import type { ⟦PgColumn⟧ } from "⟦drizzle-orm/pg-core⟧";
+import { ⟦eq⟧, ⟦not⟧ } from '⟦drizzle-orm⟧';
+import { ⟦and⟧ } from '⟦drizzle-orm⟧';
+import { ⟦or⟧ } from '⟦drizzle-orm⟧';
+import { ⟦asc⟧, ⟦desc⟧ } from '⟦drizzle-orm⟧';
+import { ⟦gt⟧ } from '⟦drizzle-orm⟧';
+import { ⟦count⟧ } from '⟦drizzle-orm⟧'
+import { ⟦countDistinct⟧ } from '⟦drizzle-orm⟧'
+import { ⟦avg⟧ } from '⟦drizzle-orm⟧'
+import { ⟦avgDistinct⟧ } from '⟦drizzle-orm⟧'
+import { ⟦sum⟧ } from '⟦drizzle-orm⟧'
+import { ⟦sumDistinct⟧ } from '⟦drizzle-orm⟧'
+import { ⟦max⟧ } from '⟦drizzle-orm⟧'
+import { ⟦min⟧ } from '⟦drizzle-orm⟧'
+import { ⟦numeric⟧, ⟦primaryKey⟧, ⟦timestamp⟧ } from '⟦drizzle-orm/pg-core⟧';
+import { ⟦ilike⟧, ⟦inArray⟧ } from '⟦drizzle-orm⟧';
+import { ⟦drizzle⟧ } from '⟦drizzle-orm/node-postgres⟧';
+const db = ⟦drizzle⟧(process.env.DATABASE_URL!);
+
+{
+  const users = ⟦pgTable⟧('users', {
+    id: ⟦serial⟧().⟦primaryKey⟧(),
+    name: ⟦text⟧().⟦notNull⟧(),
+    age: ⟦integer⟧(),
+  });
+}
+
+{
+  const result = await db.⟦select⟧().⟦from⟧(users);
+  /*
+    {
+      id: number;
+      name: string;
+      age: number | null;
+    }[]
+  */
+}
+
+{
+  const result = await db.⟦select⟧({
+    field1: users.id,
+    field2: users.name,
+  }).⟦from⟧(users);
+
+  const { field1, field2 } = result[0];
+}
+
+{
+  const result = await db.⟦select⟧({
+    id: users.id,
+    lowerName: ⟦sql⟧<string>`lower(${users.name})`,
+  }).⟦from⟧(users);
+}
+
+{
+  async function selectUsers(withName: boolean) {
+    return db
+      .⟦select⟧({
+        id: users.id,
+        ...(withName ? { name: users.name } : {}),
+      })
+      .⟦from⟧(users);
+  }
+
+  const result = await selectUsers(true);
+}
+
+{
+  await db.⟦selectDistinct⟧().⟦from⟧(users).⟦orderBy⟧(users.id, users.name);
+
+  await db.⟦selectDistinct⟧({ id: users.id }).⟦from⟧(users).⟦orderBy⟧(users.id);
+}
+
+{
+  await db.⟦selectDistinctOn⟧([users.id]).⟦from⟧(users).⟦orderBy⟧(users.id);
+  await db.⟦selectDistinctOn⟧([users.name], { name: users.name }).⟦from⟧(users).⟦orderBy⟧(users.name);
+}
+
+{
+  await db.⟦select⟧({
+      ...⟦getColumns⟧(posts),
+      titleLength: ⟦sql⟧<number>`length(${posts.title})`,
+    }).⟦from⟧(posts);
+}
+
+{
+  const { content, ...rest } = ⟦getColumns⟧(posts); // exclude "content" column
+  await db.⟦select⟧({ ...rest }).⟦from⟧(posts); // select all other columns
+}
+
+{
+  await db.⟦query⟧.posts.⟦findMany⟧({
+    ⟦columns⟧: {
+      title: true,
+    },
+  });
+}
+
+{
+  await db.⟦query⟧.posts.⟦findMany⟧({
+    ⟦columns⟧: {
+      content: false,
+    },
+  });
+}
+
+{
+  function equals42(col: ⟦PgColumn⟧) {
+    return ⟦sql⟧`${col} = 42`;
+  }
+
+  await db.⟦select⟧().⟦from⟧(users).⟦where⟧(⟦sql⟧`${users.id} < 42`);
+  await db.⟦select⟧().⟦from⟧(users).⟦where⟧(⟦sql⟧`${users.id} = 42`);
+  await db.⟦select⟧().⟦from⟧(users).⟦where⟧(equals42(users.id));
+  await db.⟦select⟧().⟦from⟧(users).⟦where⟧(⟦sql⟧`${users.id} >= 42`);
+  await db.⟦select⟧().⟦from⟧(users).⟦where⟧(⟦sql⟧`${users.id} <> 42`);
+  await db.⟦select⟧().⟦from⟧(users).⟦where⟧(⟦sql⟧`lower(${users.name}) = 'aaron'`);
+}
+
+{
+  await db.⟦select⟧().⟦from⟧(users).⟦where⟧(⟦eq⟧(users.id, 42));
+}
+
+{
+  await db.⟦select⟧().⟦from⟧(users).⟦where⟧(⟦not⟧(⟦eq⟧(users.id, 42)));
+  await db.⟦select⟧().⟦from⟧(users).⟦where⟧(⟦sql⟧`not ${users.id} = 42`);
+}
+
+{
+  await db.⟦select⟧().⟦from⟧(users).⟦where⟧(
+    ⟦and⟧(
+      ⟦eq⟧(users.id, 42),
+      ⟦eq⟧(users.name, 'Dan')
+    )
+  );
+  await db.⟦select⟧().⟦from⟧(users).⟦where⟧(⟦sql⟧`${users.id} = 42 and ${users.name} = 'Dan'`);
+}
+
+{
+  await db.⟦select⟧().⟦from⟧(users).⟦where⟧(
+    ⟦or⟧(
+      ⟦eq⟧(users.id, 42), 
+      ⟦eq⟧(users.name, 'Dan')
+    )
+  );
+  await db.⟦select⟧().⟦from⟧(users).⟦where⟧(⟦sql⟧`${users.id} = 42 or ${users.name} = 'Dan'`);
+}
+
+{
+  const searchPosts = async (term?: string) => {
+    await db
+      .⟦select⟧()
+      .⟦from⟧(posts)
+      .⟦where⟧(term ? ⟦ilike⟧(posts.title, term) : undefined);
+  };
+  await searchPosts();
+  await searchPosts('AI');
+}
+
+{
+  const searchPosts = async (filters: SQL[]) => {
+    await db
+      .⟦select⟧()
+      .⟦from⟧(posts)
+      .⟦where⟧(⟦and⟧(...filters));
+  };
+  const filters: SQL[] = [];
+  filters.push(⟦ilike⟧(posts.title, 'AI'));
+  filters.push(⟦inArray⟧(posts.category, ['Tech', 'Art', 'Science']));
+  filters.push(⟦gt⟧(posts.views, 200));
+  await searchPosts(filters);
+}
+
+{
+  await db.⟦select⟧().⟦from⟧(users).⟦limit⟧(10);
+  await db.⟦select⟧().⟦from⟧(users).⟦limit⟧(10).⟦offset⟧(10);
+}
+
+{
+  await db.⟦select⟧().⟦from⟧(users).⟦orderBy⟧(users.name);
+  await db.⟦select⟧().⟦from⟧(users).⟦orderBy⟧(⟦desc⟧(users.name));
+
+  // order by multiple fields
+  await db.⟦select⟧().⟦from⟧(users).⟦orderBy⟧(users.name, users.name2);
+  await db.⟦select⟧().⟦from⟧(users).⟦orderBy⟧(⟦asc⟧(users.name), ⟦desc⟧(users.name2));
+}
+
+{
+  await db
+    .⟦select⟧()
+    .⟦from⟧(users)
+    .⟦orderBy⟧(⟦asc⟧(users.id)) // order by is mandatory
+    .⟦limit⟧(4) // the number of rows to return
+    .⟦offset⟧(4); // the number of rows to skip
+}
+
+{
+  const getUsers = async (page = 1, pageSize = 3) => {
+    return await db.⟦query⟧.users.⟦findMany⟧({
+      ⟦orderBy⟧: (users, { ⟦asc⟧ }) => ⟦asc⟧(users.id),
+      ⟦limit⟧: pageSize,
+      ⟦offset⟧: (page - 1) * pageSize,
+    });
+  };
+  await getUsers();
+}
+
+{
+  const getUsers = async (page = 1, pageSize = 10) => {
+     const sq = db
+      .⟦select⟧({ id: users.id })
+      .⟦from⟧(users)
+      .⟦orderBy⟧(users.id)
+      .⟦limit⟧(pageSize)
+      .⟦offset⟧((page - 1) * pageSize)
+      .⟦as⟧('subquery');
+     return await db.⟦select⟧().⟦from⟧(users).⟦innerJoin⟧(sq, ⟦eq⟧(users.id, sq.id)).⟦orderBy⟧(users.id);
+  };
+}
+
+{
+  const nextUserPage = async (cursor?: number, pageSize = 3) => {
+    return await db
+      .⟦select⟧()
+      .⟦from⟧(users)
+      .⟦where⟧(cursor ? ⟦gt⟧(users.id, cursor) : undefined) // if cursor is provided, get rows after it
+      .⟦limit⟧(pageSize) // the number of rows to return
+      .⟦orderBy⟧(⟦asc⟧(users.id)); // ordering
+  };
+  // pass the cursor of the last row of the previous page (id)
+  await nextUserPage(3);
+}
+
+{
+  const sq = db.⟦$with⟧('sq').⟦as⟧(db.⟦select⟧().⟦from⟧(users).⟦where⟧(⟦eq⟧(users.id, 42)));
+
+  const result = await db.⟦with⟧(sq).⟦select⟧().⟦from⟧(sq);
+}
+
+{
+  const sq = db.⟦$with⟧('sq').⟦as⟧(
+      db.⟦insert⟧(users).⟦values⟧({ name: 'John' }).⟦returning⟧(),
+  );
+
+  const result = await db.⟦with⟧(sq).⟦select⟧().⟦from⟧(sq);
+}
+
+{
+  const sq = db.⟦$with⟧('sq').⟦as⟧(
+      db.⟦update⟧(users).⟦set⟧({ age: 25 }).⟦where⟧(⟦eq⟧(users.name, 'John')).⟦returning⟧(),
+  );
+  const result = await db.⟦with⟧(sq).⟦select⟧().⟦from⟧(sq);
+}
+
+{
+  const sq = db.⟦$with⟧('sq').⟦as⟧(
+    db.⟦delete⟧(users).⟦where⟧(⟦eq⟧(users.name, 'John')).⟦returning⟧(),
+  );
+
+  const result = await db.⟦with⟧(sq).⟦select⟧().⟦from⟧(sq);
+}
+
+{
+  const sq = db.⟦$with⟧('sq').⟦as⟧(db.⟦select⟧({ 
+    name: ⟦sql⟧<string>`upper(${users.name})`.⟦as⟧('name'),
+  })
+  .⟦from⟧(users));
+
+  const result = await db.⟦with⟧(sq).⟦select⟧({ name: sq.name }).⟦from⟧(sq);
+}
+
+{
+  const sq = db.⟦select⟧().⟦from⟧(users).⟦where⟧(⟦eq⟧(users.id, 42)).⟦as⟧('sq');
+  const result = await db.⟦select⟧().⟦from⟧(sq);
+}
+
+{
+  const sq = db.⟦select⟧().⟦from⟧(users).⟦where⟧(⟦eq⟧(users.id, 42)).⟦as⟧('sq');
+  const result = await db.⟦select⟧().⟦from⟧(users).⟦leftJoin⟧(sq, ⟦eq⟧(users.id, sq.id));
+}
+
+{
+  await db.⟦select⟧({
+    age: users.age,
+    count: ⟦sql⟧<number>`cast(count(${users.id}) as int)`,
+  })
+    .⟦from⟧(users)
+    .⟦groupBy⟧(users.age);
+
+  await db.⟦select⟧({
+    age: users.age,
+    count: ⟦sql⟧<number>`cast(count(${users.id}) as int)`,
+  })
+    .⟦from⟧(users)
+    .⟦groupBy⟧(users.age)
+    .⟦having⟧(({ count }) => ⟦gt⟧(count, 1));
+}
+
+{
+  await db.⟦select⟧({ value: ⟦count⟧() }).⟦from⟧(users);
+  await db.⟦select⟧({ value: ⟦count⟧(users.id) }).⟦from⟧(users);
+}
+
+{
+  // It's equivalent to writing
+  await db.⟦select⟧({ 
+    value: ⟦sql⟧`count(*)`.⟦mapWith⟧(Number) 
+  }).⟦from⟧(users);
+
+  await db.⟦select⟧({ 
+    value: ⟦sql⟧`count(${users.id})`.⟦mapWith⟧(Number) 
+  }).⟦from⟧(users);
+}
+
+{
+  await db.⟦select⟧({ value: ⟦countDistinct⟧(users.id) }).⟦from⟧(users);
+}
+
+{
+  // It's equivalent to writing
+  await db.⟦select⟧({ 
+    value: ⟦sql⟧`count(distinct ${users.id})`.⟦mapWith⟧(Number) 
+  }).⟦from⟧(users);
+}
+
+{
+  await db.⟦select⟧({ value: ⟦avg⟧(users.id) }).⟦from⟧(users);
+}
+
+{
+  // It's equivalent to writing
+  await db.⟦select⟧({ 
+    value: ⟦sql⟧`avg(${users.id})`.⟦mapWith⟧(String) 
+  }).⟦from⟧(users);
+}
+
+{
+  await db.⟦select⟧({ value: ⟦avgDistinct⟧(users.id) }).⟦from⟧(users);
+}
+
+{
+  // It's equivalent to writing
+  await db.⟦select⟧({ 
+    value: ⟦sql⟧`avg(distinct ${users.id})`.⟦mapWith⟧(String) 
+  }).⟦from⟧(users);
+}
+
+{
+  await db.⟦select⟧({ value: ⟦sum⟧(users.id) }).⟦from⟧(users);
+}
+
+{
+  // It's equivalent to writing
+  await db.⟦select⟧({ 
+    value: ⟦sql⟧`sum(${users.id})`.⟦mapWith⟧(String) 
+  }).⟦from⟧(users);
+}
+
+{
+  await db.⟦select⟧({ value: ⟦sumDistinct⟧(users.id) }).⟦from⟧(users);
+}
+
+{
+  // It's equivalent to writing
+  await db.⟦select⟧({ 
+    value: ⟦sql⟧`sum(distinct ${users.id})`.⟦mapWith⟧(String) 
+  }).⟦from⟧(users);
+}
+
+{
+  await db.⟦select⟧({ value: ⟦max⟧(users.id) }).⟦from⟧(users);
+}
+
+{
+  // It's equivalent to writing
+  await db.⟦select⟧({ 
+    value: ⟦sql⟧`max(${expression})`.⟦mapWith⟧(users.id) 
+  }).⟦from⟧(users);
+}
+
+{
+  await db.⟦select⟧({ value: ⟦min⟧(users.id) }).⟦from⟧(users);
+}
+
+{
+  // It's equivalent to writing
+  await db.⟦select⟧({ 
+    value: ⟦sql⟧`min(${users.id})`.⟦mapWith⟧(users.id) 
+  }).⟦from⟧(users);
+}
+
+{
+  const orders = ⟦pgTable⟧("order", {
+    id: ⟦integer⟧("id").⟦primaryKey⟧(),
+    orderDate: ⟦timestamp⟧("order_date", { ⟦withTimezone⟧: true }).⟦notNull⟧(),
+    requiredDate: ⟦timestamp⟧("required_date", { ⟦withTimezone⟧: true }).⟦notNull⟧(),
+    shippedDate: ⟦timestamp⟧("shipped_date", { ⟦withTimezone⟧: true }),
+    shipVia: ⟦integer⟧("ship_via").⟦notNull⟧(),
+    freight: ⟦numeric⟧("freight").⟦notNull⟧(),
+    shipName: ⟦text⟧("ship_name").⟦notNull⟧(),
+    shipCity: ⟦text⟧("ship_city").⟦notNull⟧(),
+    shipRegion: ⟦text⟧("ship_region"),
+    shipPostalCode: ⟦text⟧("ship_postal_code"),
+    shipCountry: ⟦text⟧("ship_country").⟦notNull⟧(),
+    customerId: ⟦text⟧("customer_id").⟦notNull⟧(),
+    employeeId: ⟦integer⟧("employee_id").⟦notNull⟧(),
+  });
+
+  const details = ⟦pgTable⟧("order_detail", {
+    unitPrice: ⟦numeric⟧("unit_price").⟦notNull⟧(),
+    quantity: ⟦integer⟧("quantity").⟦notNull⟧(),
+    discount: ⟦numeric⟧("discount").⟦notNull⟧(),
+    orderId: ⟦integer⟧("order_id").⟦notNull⟧(),
+    productId: ⟦integer⟧("product_id").⟦notNull⟧(),
+  });
+
+
+  await db
+    .⟦select⟧({
+      id: orders.id,
+      shippedDate: orders.shippedDate,
+      shipName: orders.shipName,
+      shipCity: orders.shipCity,
+      shipCountry: orders.shipCountry,
+      productsCount: ⟦sql⟧<number>`cast(count(${details.productId}) as int)`,
+      quantitySum: ⟦sql⟧<number>`sum(${details.quantity})`,
+      totalPrice: ⟦sql⟧<number>`sum(${details.quantity} * ${details.unitPrice})`,
+    })
+    .⟦from⟧(orders)
+    .⟦leftJoin⟧(details, ⟦eq⟧(orders.id, details.orderId))
+    .⟦groupBy⟧(orders.id)
+    .⟦orderBy⟧(⟦asc⟧(orders.id))
+}

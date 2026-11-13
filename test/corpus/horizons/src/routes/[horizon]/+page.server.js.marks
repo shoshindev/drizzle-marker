@@ -1,0 +1,7 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+5: eq, drizzle-orm
+8: enumValues
+12: select, from, where, eq
+24: enumValues
+35: enumValues
+49: insert, values

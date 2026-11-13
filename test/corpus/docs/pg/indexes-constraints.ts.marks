@@ -1,0 +1,51 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+4: sql, drizzle-orm
+5: integer, uuid, pgTable, drizzle-orm/pg-core
+6: text, unique, drizzle-orm/pg-core
+7: check, drizzle-orm/pg-core
+8: serial, drizzle-orm/pg-core
+9: primaryKey, drizzle-orm/pg-core
+10: foreignKey, AnyPgColumn, drizzle-orm/pg-core
+11: index, uniqueIndex, drizzle-orm/pg-core
+12: drizzle, drizzle-orm/node-postgres
+13: drizzle
+16: pgTable
+17: integer, default
+18: integer, default, sql
+19: uuid, defaultRandom
+20: uuid, default, sql
+25: pgTable
+26: integer, notNull
+31: pgTable
+34: uuid, defaultRandom, primaryKey
+35: text, notNull
+36: integer
+39: check, sql
+45: pgTable
+46: serial, primaryKey
+49: pgTable
+50: text, primaryKey
+55: pgTable
+56: serial, primaryKey
+57: text
+60: pgTable
+61: serial, primaryKey
+62: text
+65: pgTable
+66: integer
+67: integer
+69: primaryKey, columns
+71: primaryKey, name, columns
+76: pgTable
+77: serial
+78: text
+81: pgTable
+82: serial
+83: text
+84: integer, references
+89: pgTable
+90: serial, primaryKey
+91: text
+92: text
+94: index, on
+95: uniqueIndex, on

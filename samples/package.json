@@ -1,0 +1,9 @@
+{
+  "name": "drizzle-marker-samples",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "drizzle-kit": "^0.31.11",
+    "drizzle-orm": "^0.45.4"
+  }
+}

@@ -1,0 +1,22 @@
+// From "generated-columns" in Drizzle's docs for PostgreSQL, by the Drizzle team, CC BY 4.0.
+// See test/corpus/docs/README.md for what was changed.
+
+import { ⟦SQL⟧, ⟦sql⟧ } from "⟦drizzle-orm⟧";
+import { ⟦customType⟧, ⟦index⟧, ⟦integer⟧, ⟦pgTable⟧, ⟦text⟧ } from "⟦drizzle-orm/pg-core⟧";
+import { ⟦drizzle⟧ } from '⟦drizzle-orm/node-postgres⟧';
+const db = ⟦drizzle⟧(process.env.DATABASE_URL!);
+
+{
+  const test = ⟦pgTable⟧("test", {
+      generatedName: ⟦text⟧("gen_name").⟦generatedAlwaysAs⟧(⟦sql⟧`'hello "world"!'`),
+  });
+}
+
+{
+  const test = ⟦pgTable⟧("test", {
+      name: ⟦text⟧("first_name"),
+      generatedName: ⟦text⟧("gen_name").⟦generatedAlwaysAs⟧(
+        (): ⟦SQL⟧ => ⟦sql⟧`'hi, ' || ${test.name} || '!'`
+      ),
+  });
+}

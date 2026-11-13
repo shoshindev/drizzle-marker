@@ -1,0 +1,36 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# The interface at the end is declared in this file, so its keys are yours.
+5: eq, sql, drizzle-orm
+6: drizzle, drizzle-orm/node-postgres
+7: drizzle
+10: drizzle
+12: transaction
+13: update, set, sql, where, eq
+14: update, set, sql, where, eq
+19: drizzle
+21: transaction
+22: update, set, sql, where, eq
+23: update, set, sql, where, eq
+25: transaction
+26: update, set, where, eq
+32: drizzle
+34: transaction
+35: select, from, where, eq
+38: rollback
+41: update, set, sql, where, eq
+42: update, set, sql, where, eq
+47: drizzle
+49: transaction
+50: update, set, sql, where, eq
+51: update, set, sql, where, eq
+53: select, from, where, eq
+59: drizzle, schema
+61: transaction
+62: query, findMany
+63: with
+71: transaction
+73: update, set, sql, where, eq
+74: update, set, sql, where, eq
+76: isolationLevel, read committed
+77: accessMode, read write
+78: deferrable

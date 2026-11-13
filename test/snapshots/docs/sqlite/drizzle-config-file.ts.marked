@@ -1,0 +1,158 @@
+// From "drizzle-config-file" in Drizzle's docs for SQLite, by the Drizzle team, CC BY 4.0.
+// See test/corpus/docs/README.md for what was changed.
+
+import { ⟦defineConfig⟧ } from "⟦drizzle-kit⟧";
+import * as p from "⟦drizzle-orm/sqlite-core⟧"
+import { ⟦integer⟧, ⟦primaryKey⟧, ⟦sqliteTable⟧, ⟦text⟧ } from '⟦drizzle-orm/sqlite-core⟧';
+import { ⟦drizzle⟧ } from '⟦drizzle-orm/libsql⟧';
+const db = ⟦drizzle⟧(process.env.DB_FILE_NAME!);
+
+{
+  ⟦defineConfig⟧({
+    ⟦dialect⟧: "⟦sqlite⟧",
+    ⟦schema⟧: "./src/schema.ts",
+    ⟦out⟧: "./drizzle",
+  });
+}
+
+{
+  ⟦defineConfig⟧({
+    ⟦dialect⟧: "⟦sqlite⟧",
+    ⟦schema⟧: "./src/schema.ts",
+    ⟦out⟧: "./drizzle",
+  });
+}
+
+{
+  ⟦defineConfig⟧({
+    ⟦out⟧: "./drizzle",
+    ⟦dialect⟧: "⟦sqlite⟧",
+    ⟦schema⟧: "./src/schema.ts",
+
+    ⟦driver⟧: "⟦d1-http⟧",
+    ⟦dbCredentials⟧: {
+      ⟦url⟧: "./sqlite.db",
+    },
+
+    ⟦tablesFilter⟧: "*",
+
+    ⟦introspect⟧: {
+      ⟦casing⟧: "⟦camel⟧",
+    },
+
+    ⟦migrations⟧: {
+      ⟦table⟧: "__drizzle_migrations__",
+    },
+
+    ⟦breakpoints⟧: true,
+    ⟦verbose⟧: true,
+  });
+}
+
+{
+  ⟦defineConfig⟧({
+    ⟦dialect⟧: "⟦sqlite⟧",
+    ⟦schema⟧: "./src/schema/*",
+    ⟦out⟧: "./drizzle",
+  });
+}
+
+{
+  ⟦defineConfig⟧({
+    ⟦dialect⟧: "⟦sqlite⟧", 
+  });
+}
+
+{
+  ⟦defineConfig⟧({
+    ⟦out⟧: "./drizzle", 
+  });
+}
+
+{
+  ⟦defineConfig⟧({
+    ⟦dialect⟧: "⟦sqlite⟧",
+    ⟦driver⟧: "⟦d1-http⟧",
+    ⟦dbCredentials⟧: {
+      ⟦accountId⟧: "accountId",
+      ⟦databaseId⟧: "databaseId",
+      ⟦token⟧: "token",
+    },
+  });
+}
+
+{
+  ⟦defineConfig⟧({
+    ⟦dialect⟧: "⟦sqlite⟧",
+    ⟦dbCredentials⟧: {
+      ⟦url⟧: ":memory:", // in-memory database
+      // or
+      ⟦url⟧: "sqlite.db", 
+      // or
+      ⟦url⟧: "file:sqlite.db" // file: prefix is required by libsql
+    }
+  });
+}
+
+{
+  ⟦defineConfig⟧({
+    ⟦dialect⟧: "⟦sqlite⟧",
+    ⟦driver⟧: "⟦d1-http⟧",
+    ⟦dbCredentials⟧: {
+      ⟦accountId⟧: "accountId",
+      ⟦databaseId⟧: "databaseId",
+      ⟦token⟧: "token",
+    },
+  });
+}
+
+{
+  ⟦defineConfig⟧({
+    ⟦dialect⟧: "⟦sqlite⟧",
+    ⟦schema⟧: "./src/schema.ts",
+    ⟦migrations⟧: {
+      ⟦table⟧: 'my-migrations-table', // `__drizzle_migrations` by default
+    },
+  });
+}
+
+{
+  const users = p.⟦sqliteTable⟧("users", {
+    id: p.⟦integer⟧().⟦primaryKey⟧({ ⟦autoIncrement⟧: true }),
+    firstName: p.⟦text⟧("first-name"),
+    lastName: p.⟦text⟧("LastName"),
+    email: p.⟦text⟧("email"),
+    phoneNumber: p.⟦text⟧("phone_number"),
+  });
+}
+
+{
+  const users = p.⟦sqliteTable⟧("users", {
+    id: p.⟦integer⟧().⟦primaryKey⟧({ ⟦autoIncrement⟧: true }),
+    "first-name": p.⟦text⟧("first-name"),
+    LastName: p.⟦text⟧("LastName"),
+    email: p.⟦text⟧("email"),
+    phone_number: p.⟦text⟧("phone_number"),
+  });
+}
+
+{
+  ⟦defineConfig⟧({
+    ⟦dialect⟧: "⟦sqlite⟧",
+    ⟦tablesFilter⟧: ["users", "posts", "project1_*"],
+  });
+}
+
+{
+  ⟦defineConfig⟧({
+    ⟦dialect⟧: "⟦sqlite⟧",
+    ⟦verbose⟧: false,
+  });
+}
+
+{
+  ⟦defineConfig⟧({
+    ⟦dialect⟧: "⟦sqlite⟧",
+    ⟦breakpoints⟧: false,
+  });
+}

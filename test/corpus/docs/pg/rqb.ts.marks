@@ -1,0 +1,100 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# `desc` on line 50 and `sql` on line 67 are names Drizzle passes to the
+# callback, so the parameter and its use both get marks. Table and relation
+# names under `r`, `with` and `extras` are yours.
+5: drizzle, drizzle-orm/node-postgres
+6: drizzle-orm/pg-core
+7: defineRelations, drizzle-orm
+9: AnyPgColumn, integer, pgTable, primaryKey, text, timestamp, drizzle-orm/pg-core
+11: jsonb, drizzle-orm/pg-core
+12: sql, drizzle-orm
+13: eq, drizzle-orm
+14: asc, count, desc, placeholder, drizzle-orm
+15: drizzle
+18: query, findMany
+19: orderBy, sql
+20: with
+22: orderBy, sql
+29: query, findMany
+30: where
+31: RAW, sql
+37: query, findMany
+38: extras
+39: sql
+40: $count, eq
+46: query, findMany
+47: orderBy, sql
+48: with
+50: orderBy, desc, desc
+57: query, findMany
+58: where
+59: RAW, sql
+65: query, findMany
+66: extras
+67: sql, sql
+68: $count, eq
+74: drizzle, relations
+76: query, findMany
+77: with
+103: defineRelations
+105: one
+106: from
+107: to
+111: many
+117: drizzle, relations
+119: query, findMany
+123: pgTable
+124: integer, primaryKey
+125: text, notNull
+126: integer, references, AnyPgColumn
+129: pgTable
+130: integer, primaryKey
+131: text, notNull
+132: text
+135: pgTable
+136: integer, primaryKey
+137: integer, notNull, references
+138: integer, notNull, references
+140: primaryKey, columns
+143: pgTable
+144: integer, primaryKey
+145: text, notNull
+146: integer, references
+147: timestamp, withTimezone, notNull, defaultNow
+150: pgTable
+151: integer, primaryKey
+152: text, notNull
+153: integer, references
+154: integer, references
+155: timestamp, withTimezone, notNull, defaultNow
+158: pgTable
+159: integer, primaryKey
+160: integer, references
+161: integer, references
+162: timestamp, withTimezone, notNull, defaultNow
+167: defineRelations
+169: one
+170: from
+171: to
+173: many
+174: from, through
+175: to, through
+177: many
+180: many
+183: one
+184: from
+185: to
+187: many
+190: one
+191: from
+192: to
+194: one
+195: from
+196: to
+198: many
+201: one
+202: from
+203: to
+205: one
+206: from
+207: to

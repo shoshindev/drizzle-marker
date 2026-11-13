@@ -1,0 +1,42 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# `users` and `employees` are never declared in this page, so nothing says
+# they're tables: `$inferInsert` on line 18 can't be known to be Drizzle's.
+4: boolean, int, text, mysqlTable, drizzle-orm/mysql-core
+5: varchar, drizzle-orm/mysql-core
+7: sql, drizzle-orm
+8: QueryBuilder, primaryKey, drizzle-orm/mysql-core
+9: eq, drizzle-orm
+10: drizzle, drizzle-orm/mysql2
+11: drizzle
+14: insert, values
+21: insert, values
+29: mysqlTable
+30: int, autoincrement, primaryKey
+31: text, notNull
+32: boolean, notNull, default
+36: insert, values, $returningId
+41: mysqlTable
+42: varchar, length, primaryKey, $defaultFn
+43: text, notNull
+47: insert, values, $returningId
+52: insert, values
+57: insert
+58: values
+59: onDuplicateKeyUpdate, set
+63: insert
+64: values
+65: onDuplicateKeyUpdate, set, sql
+70: insert
+71: select
+72: select, from, where, eq
+77: QueryBuilder
+78: insert, select
+79: select, from, where, eq
+84: insert, select
+85: select, from, where, eq
+90: insert, select
+91: select, from, where, eq
+96: insert, select
+97: sql
+102: insert, select
+103: sql

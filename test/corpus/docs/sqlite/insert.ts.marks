@@ -1,0 +1,61 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+# `users` and `employees` are never declared in this page, so nothing says
+# they're tables: `$inferInsert` on line 19 can't be known to be Drizzle's.
+5: QueryBuilder, drizzle-orm/sqlite-core
+6: count, eq, name, sql, drizzle-orm
+7: drizzle, drizzle-orm/libsql
+8: drizzle
+11: insert, values
+15: insert, values
+22: insert, values
+30: insert, values, returning
+33: insert, values, returning
+37: insert, values
+41: insert
+42: values
+43: onConflictDoNothing
+46: insert
+47: values
+48: onConflictDoNothing, target
+52: insert
+53: values
+54: onConflictDoUpdate, target, set
+58: insert
+59: values
+60: onConflictDoUpdate
+61: target
+62: targetWhere, sql
+63: set, sql
+66: insert
+67: values
+68: onConflictDoUpdate
+69: target
+70: set
+71: setWhere, sql
+76: insert
+77: values
+78: onConflictDoUpdate
+79: target
+80: set
+85: $with, as
+86: select, sql, as, from
+89: with
+90: insert
+91: values
+92: sql
+94: returning
+101: insert
+102: select
+103: select, from, where, eq
+105: returning
+112: QueryBuilder
+113: insert, select
+114: select, from, where, eq
+119: insert, select
+120: select, from, where, eq
+125: insert, select
+126: select, from, where, eq
+131: insert, select
+132: sql
+137: insert, select
+138: sql

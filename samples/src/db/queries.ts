@@ -1,6 +1,7 @@
 import { and, desc, eq, sql, type SQL } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { posts, users } from './schema';
+import { db as sharedDb } from './index';
 
 const db = drizzle(process.env.DATABASE_URL!);
 
@@ -21,3 +22,6 @@ export async function recentPosts(authorId: number, search?: string) {
 export function byName(eq: (a: string, b: string) => boolean, name: string) {
   return eq(name, 'drizzle');
 }
+
+// `sharedDb` comes from index.ts, so its methods get marks the same way.
+export const count = () => sharedDb.$count(users);

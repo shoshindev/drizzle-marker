@@ -1,0 +1,81 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+4: integer, pgTable, varchar, drizzle-orm/pg-core
+5: drizzle-orm/pg-core
+6: defineConfig, drizzle-kit
+7: snakeCase, camelCase, drizzle-orm/pg-core
+8: drizzle, drizzle-orm/node-postgres
+9: pgSchema, drizzle-orm/pg-core
+10: AnyPgColumn, drizzle-orm/pg-core
+11: pgEnum, pgTable, drizzle-orm/pg-core
+12: drizzle-orm/pg-core
+13: index, primaryKey, serial, text, timestamp, unique, uniqueIndex, drizzle-orm/pg-core
+14: sql, drizzle-orm
+15: drizzle
+18: pgTable
+19: integer, primaryKey, generatedAlwaysAsIdentity
+20: varchar, notNull
+21: integer, notNull
+22: varchar, notNull, unique
+27: pgTable
+28: integer, primaryKey, generatedAlwaysAsIdentity
+29: varchar, notNull
+30: integer, notNull
+31: varchar, notNull, unique
+36: pgTable
+37: integer, primaryKey, generatedAlwaysAsIdentity
+38: varchar, notNull
+39: integer, notNull
+40: varchar, notNull, unique
+45: defineConfig
+46: dialect, postgresql
+47: schema
+52: defineConfig
+53: dialect, postgresql
+54: schema
+59: pgTable
+60: integer
+68: pgTable
+69: integer
+70: varchar
+76: select, from
+83: pgTable
+84: integer
+85: varchar
+91: select, from
+98: snakeCase, table
+99: serial, primaryKey
+100: text
+101: timestamp
+105: snakeCase, table, snakeCase, view, snakeCase, materializedView, snakeCase, schema
+106: camelCase, table, camelCase, view, camelCase, materializedView, camelCase, schema
+113: drizzle, connection
+118: select, from
+124: timestamp
+125: timestamp, defaultNow, notNull
+126: timestamp
+132: pgTable
+133: integer
+140: pgTable
+141: integer
+147: pgSchema
+151: pgSchema
+153: table
+154: integer
+159: pgEnum
+164: integer, primaryKey, generatedAlwaysAsIdentity
+165: varchar, length
+166: varchar, length
+167: varchar, notNull
+168: integer, references, AnyPgColumn
+169: default
+172: uniqueIndex, on
+179: integer, primaryKey, generatedAlwaysAsIdentity
+180: varchar, $default
+181: varchar, length
+182: integer, references
+185: uniqueIndex, on
+186: index, on
+191: integer, primaryKey, generatedAlwaysAsIdentity
+192: varchar, length
+193: integer, references
+194: integer, references

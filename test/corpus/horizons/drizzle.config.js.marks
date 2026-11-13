@@ -1,0 +1,8 @@
+# Written by hand: each line that gets marks, and the marked text in order.
+1: defineConfig, drizzle-kit
+5: defineConfig
+6: schema
+7: dialect, postgresql
+8: dbCredentials, url
+9: verbose
+10: strict

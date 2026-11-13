@@ -1,0 +1,53 @@
+// From "views" in Drizzle's docs for PostgreSQL, by the Drizzle team, CC BY 4.0.
+// See test/corpus/docs/README.md for what was changed.
+
+import { ⟦pgTable⟧, ⟦pgView⟧, ⟦serial⟧, ⟦text⟧, ⟦timestamp⟧ } from "⟦drizzle-orm/pg-core⟧";
+import { ⟦eq⟧ } from "⟦drizzle-orm⟧";
+import { ⟦QueryBuilder⟧ } from '⟦drizzle-orm/pg-core⟧';
+import { ⟦pgMaterializedView⟧ } from '⟦drizzle-orm/pg-core⟧';
+import { ⟦drizzle⟧ } from '⟦drizzle-orm/node-postgres⟧';
+const db = ⟦drizzle⟧(process.env.DATABASE_URL!);
+
+{
+  const user = ⟦pgTable⟧("user", {
+    id: ⟦serial⟧(),
+    name: ⟦text⟧(),
+    email: ⟦text⟧(),
+    password: ⟦text⟧(),
+    role: ⟦text⟧().⟦$type⟧<"admin" | "customer">(),
+    createdAt: ⟦timestamp⟧("created_at"),
+    updatedAt: ⟦timestamp⟧("updated_at"),
+  });
+
+  const userView = ⟦pgView⟧("user_view").⟦as⟧((qb) => qb.⟦select⟧().⟦from⟧(user));
+  const customersView = ⟦pgView⟧("customers_view").⟦as⟧((qb) => qb.⟦select⟧().⟦from⟧(user).⟦where⟧(⟦eq⟧(user.role, "customer")));
+}
+
+{
+  const qb = new ⟦QueryBuilder⟧();
+
+  const user = ⟦pgTable⟧("user", {
+    id: ⟦serial⟧(),
+    name: ⟦text⟧(),
+    email: ⟦text⟧(),
+    password: ⟦text⟧(),
+    role: ⟦text⟧().⟦$type⟧<"admin" | "customer">(),
+    createdAt: ⟦timestamp⟧("created_at"),
+    updatedAt: ⟦timestamp⟧("updated_at"),
+  });
+
+  const userView = ⟦pgView⟧("user_view").⟦as⟧(qb.⟦select⟧().⟦from⟧(user));
+  const customersView = ⟦pgView⟧("customers_view").⟦as⟧(qb.⟦select⟧().⟦from⟧(user).⟦where⟧(⟦eq⟧(user.role, "customer")));
+}
+
+{
+  const newYorkers = ⟦pgMaterializedView⟧('new_yorkers').⟦as⟧((qb) => qb.⟦select⟧().⟦from⟧(users).⟦where⟧(⟦eq⟧(users.cityId, 1)));
+}
+
+{
+  await db.⟦refreshMaterializedView⟧(newYorkers);
+
+  await db.⟦refreshMaterializedView⟧(newYorkers).⟦concurrently⟧();
+
+  await db.⟦refreshMaterializedView⟧(newYorkers).⟦withNoData⟧();
+}
